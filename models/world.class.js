@@ -5,7 +5,12 @@ class World {
         new Chicken(),
         new Chicken(),
     ];
-    cloud = new Cloud;
+    cloud = [
+        new Cloud
+    ];
+    backgroundObjects = [
+        new BackgroundObject('../img/5_background/layers/1_first_layer/1.png', 0, 180)
+    ];
     canvas;
     ctx;
 
@@ -16,17 +21,27 @@ class World {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-        this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width, this.character.height);
-        this.ctx.drawImage(this.cloud.img, this.cloud.x, this.cloud.y, this.cloud.width, this.cloud.height)
-        this.enemies.forEach(enemy => {
-            this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width, enemy.height);
-        })
-        
+        this.ctx.clearRect(0, 0, canvas.width, canvas.height);        
+        this.addToMap(this.character);                  
+        this.addObjectsToMap(this.backgroundObjects);
+        this.addObjectsToMap(this.enemies);
+        this.addObjectsToMap(this.cloud);      
         //Draw wird immer wieder aufgerufen
         let self = this; //this funktioniert in der unteren Funktion nicht mehr, daher eine neue Variable
         requestAnimationFrame(function(){ // Funktion wird ausgeführt, sobald alles darüber fertig gezeichnet wurde, also wird asynchron später ausgeführt
             self.draw();
         });
     }
+
+    addObjectsToMap(objects) {
+        objects.forEach(o => {
+            this.addToMap(o);
+       });
+    }
+
+    addToMap(mo) {
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height)
+    }
+
 }
+

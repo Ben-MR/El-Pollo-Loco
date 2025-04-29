@@ -1,9 +1,11 @@
 class Cloud extends MoveableObject {
+    y = 20;
+    height = 250;
+    width = 500;
+
+
     constructor() {
         super().loadImage('../img/5_background/layers/4_clouds/1.png');
-        this.height = 250;
-        this.width = 700;
-        this.y = 10;
-        this.x = 0;
+        this.x = Math.random() * 500;
     }
-}
+} 
