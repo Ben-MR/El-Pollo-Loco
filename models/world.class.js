@@ -24,10 +24,8 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);           
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.cloud);      
-
+        this.addObjectsToMap(this.level.cloud);    
         this.ctx.translate(-this.camera_x, 0);
-
         //Draw wird immer wieder aufgerufen
         let self = this; //this funktioniert in der unteren Funktion nicht mehr, daher eine neue Variable
         requestAnimationFrame(function(){ // Funktion wird ausgeführt, sobald alles darüber fertig gezeichnet wurde, also wird asynchron später ausgeführt

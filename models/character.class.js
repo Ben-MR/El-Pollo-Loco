@@ -1,7 +1,7 @@
 class Character extends MoveableObject {
     height = 260;
     width = 140;
-    y = 75; //175
+    y = 175; 
     speed = 2.0;
     imagesWalking = [
         '../img/2_character_pepe/2_walk/W-21.png',
@@ -14,7 +14,6 @@ class Character extends MoveableObject {
 
     images_jumping = [
         '../img/2_character_pepe/3_jump/J-31.png',
-        '../img/2_character_pepe/3_jump/J-32.png',
         '../img/2_character_pepe/3_jump/J-33.png',
         '../img/2_character_pepe/3_jump/J-34.png',
         '../img/2_character_pepe/3_jump/J-35.png',
@@ -27,7 +26,7 @@ class Character extends MoveableObject {
     
 
     constructor() {
-        super().loadImage('../img/2_character_pepe/2_walk/W-21.png');
+        super().loadImage('../img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.imagesWalking);
         this.loadImages(this.images_jumping);
         this.applyGravity();
@@ -37,8 +36,7 @@ class Character extends MoveableObject {
     animate() {          
         setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;   
-                this.otherDirection = false;
+                this.moveRight();
             };
         },60/1000);
 
@@ -48,21 +46,25 @@ class Character extends MoveableObject {
                 this.otherDirection = true;
             };
             this.world.camera_x = -this.x + 100
+            if (this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.jump();
+            }
         },60/1000);
 
         setInterval(() => {
-
             if (this.isAboveGround()) {
                 this.playAnimation(this.images_jumping);
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {                         
-                    this.playAnimation(this.imagesWalking);
-                }
-            }
-        }, 50);
+                    this .playAnimation(this.imagesWalking);
+                } 
+            } 
+        },  125);         
+
+       
     }
 
-    jump() {
+    
+    
 
-    }
-} 
+}
