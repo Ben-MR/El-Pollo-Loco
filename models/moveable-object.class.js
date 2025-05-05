@@ -8,6 +8,14 @@ class MoveableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
+    offset = {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+    };
+    energy = 100;
+    lastHit = 0;
 
 
 
@@ -17,7 +25,7 @@ class MoveableObject {
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
             }
-        }, 1000/25);
+        }, 1000/25 );
     }
 
     isAboveGround() {
@@ -27,6 +35,46 @@ class MoveableObject {
     loadImage(path) {
         this.img = new Image(); //Image ist bereits durch JS definiert. Ist das gleiche wie: this.img = document.getElementById('image') <img id="image"  scr>
         this.img.src = path;
+    }
+
+    draw(ctx)  {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);     
+    }
+
+    drawFrame(ctx) { //Kästen für Kollisionsabfrage
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+            ctx.beginPath();
+            ctx.lineWidth = '3';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();  
+        }
+    }
+
+    isColliding (mo) {
+        return this.x + this.width - this.offset.right > mo.x &&
+            this.y + this.height - this.offset.bottom > mo.y &&
+            this.x + this.offset.left < mo.x &&
+            this.y + this.offset.top < mo.y + mo.height
+    }
+
+    hit() {
+        this.energy -= 5;   
+        if (this.energy < 0) {
+            this.energy = 0;
+        }else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit;// Difference im ms
+        timePassed = timePassed / 1000; //Uwandlung in Sekunden        
+        return timePassed < 1;
+    };
+
+    isDead() {
+        return this.energy == 0;
     }
 
     /**
