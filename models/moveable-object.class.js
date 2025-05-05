@@ -1,10 +1,4 @@
-class MoveableObject {
-    x = 120;
-    img;
-    height = 150;
-    width = 100;
-    imageCache = {};
-    currentImage = 0;
+class MoveableObject extends DrawableObject {   
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
@@ -32,24 +26,7 @@ class MoveableObject {
         return this.y < 175;
     }
 
-    loadImage(path) {
-        this.img = new Image(); //Image ist bereits durch JS definiert. Ist das gleiche wie: this.img = document.getElementById('image') <img id="image"  scr>
-        this.img.src = path;
-    }
 
-    draw(ctx)  {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);     
-    }
-
-    drawFrame(ctx) { //Kästen für Kollisionsabfrage
-        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = '3';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();  
-        }
-    }
 
     isColliding (mo) {
         return this.x + this.width - this.offset.right > mo.x &&
@@ -75,18 +52,6 @@ class MoveableObject {
 
     isDead() {
         return this.energy == 0;
-    }
-
-    /**
-     * 
-     * @param {Array} arr - ['img/image1.png', 'img/image2.png',...]
-     */
-    loadImages(arr) {
-        arr.forEach((path) => {   
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
     }
 
     moveLeft(speed, time){
