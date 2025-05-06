@@ -14,7 +14,7 @@ class MoveableObject extends DrawableObject {
 
 
     applyGravity(){
-        setInterval(() => {
+        this.gravityIntervall = setInterval(() => {
             if(this.isAboveGround() || this.speedY > 0){
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
@@ -22,8 +22,7 @@ class MoveableObject extends DrawableObject {
         }, 1000/25 );
     }
 
-    isAboveGround() {
-        
+    isAboveGround() {        
         if(this instanceof ThrowableObjects) {//Thrwoable Objects should always fall
             return true
         } else {
@@ -55,12 +54,6 @@ class MoveableObject extends DrawableObject {
 
     isDead() {
         return this.energy == 0;
-    }
-
-    ChickenDead() {
-        console.log('dead');
-        this.speedY = 25;
-        
     }
 
     moveLeft(speed, time){

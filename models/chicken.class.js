@@ -40,7 +40,7 @@ class Chicken extends MoveableObject {
         this.moveLeft((0.2 + Math.random() * 0.25), 1000/60);   
     }
 
-    ChickenDead() {
+    chickenHit() {
         this.dead = true;   
     }
 

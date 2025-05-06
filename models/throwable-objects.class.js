@@ -39,24 +39,34 @@ class ThrowableObjects extends MoveableObject{
     throw() {
         this.speedY = 30;
         this.applyGravity();
-        setInterval(() => {
+        this.moveInterval = setInterval(() => {
             this.x += 5;
         }, 25);
         this.animateBottleThrow();
     }
 
     animateBottleThrow() {
-        this.animationInterval= setInterval(() => {
+        this.animationInterval = setInterval(() => {
             if (this.bottleHit) {
-                this.playAnimation(this.images_Bottle_Splash);
-            }else
-                this.playAnimation(this.images_Bottle_Rotation);
-        },50);
-    }  
+                clearInterval(this.animationInterval); 
+                this.playAnimation(this.images_Bottle_Splash); 
+                setTimeout(() => {
+                    this.removeBottle();
+                }, 200); 
+            } else {
+                this.playAnimation(this.images_Bottle_Rotation); 
+            }
+        }, 50);
+    }
 
     enemyHit() {
-        console.log('hit');
-        this.bottleHit = true
-        clearInterval(this.animationInterval);
+        this.bottleHit = true;
+        clearInterval(this.moveInterval);
+        clearInterval(this.gravityIntervall);
+        this.animateBottleThrow();        
+    }
+
+    removeBottle() {
+        this.x = -1000;
     }
 }
