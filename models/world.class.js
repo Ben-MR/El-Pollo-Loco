@@ -30,6 +30,7 @@ class World {
             this.checkThrowObjects();
             this.checkBottleCollisions();
             this.collectCoins();
+            this.collectBottles();
         }, 200);
     }
 
@@ -43,9 +44,10 @@ class World {
     }
 
     checkThrowObjects() {
-        if(this.keyboard.CTRLL) {
+        if(this.keyboard.CTRLL && this.statusBarBottle.bottles > 0) {
             let bottle = new ThrowableObjects (this.character.x +70, this.character.y + 100);
             this.throwableObjects.push(bottle);
+            this.statusBarBottle.bottlesDown(); 
         }
     }
 
@@ -63,7 +65,17 @@ class World {
     collectCoins() {
         this.level.collectablesCoins.forEach((collectablesCoins) => {
             if(this.character.isColliding(collectablesCoins)) {
-                this.character.coinsUp();                                 
+                this.statusBarCoin.coinsUp();   
+                this.level.collectablesCoins.splice(collectablesCoins, 1);                             
+            }
+        });
+    }
+
+    collectBottles() {
+        this.level.collectablesBottles.forEach((collectablesBottles) => {
+            if(this.character.isColliding(collectablesBottles)) {
+                this.statusBarBottle.bottlesUp();   
+                this.level.collectablesBottles.splice(collectablesBottles, 1);                             
             }
         });
     }
@@ -84,7 +96,8 @@ class World {
         this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies); 
-        this.addObjectsToMap(this.level.collectablesCoins);          
+        this.addObjectsToMap(this.level.collectablesCoins);    
+        this.addObjectsToMap(this.level.collectablesBottles);        
         this.ctx.translate(-this.camera_x, 0);         
         //Draw wird immer wieder aufgerufen
         let self = this; //this funktioniert in der unteren Funktion nicht mehr, daher eine neue Variable

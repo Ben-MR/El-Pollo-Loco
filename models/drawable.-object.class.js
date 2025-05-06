@@ -17,7 +17,7 @@ class DrawableObject {
     }
 
     drawFrame(ctx) { //Kästen für Kollisionsabfrage
-        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof CollectableObjectsCoins) {
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObjects || this instanceof CollectableObjectsCoins || this instanceof CollectableObjectsBottles) {
             ctx.beginPath();
             ctx.lineWidth = '3';
             ctx.strokeStyle = 'blue';
