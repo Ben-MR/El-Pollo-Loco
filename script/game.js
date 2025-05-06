@@ -4,11 +4,7 @@ let keyboard = new Keyboard;
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World (canvas, keyboard);
-    
-
-    console.log('My character is', world.character);    
-
+    world = new World (canvas, keyboard);  
 }
 
 document.addEventListener('keydown', event => {
@@ -27,6 +23,9 @@ document.addEventListener('keydown', event => {
     if (event.code === 'ArrowDown') {
         keyboard.DOWN = true;
     }
+    if (event.code === 'ControlLeft') {
+        keyboard.CTRLL = true;
+    }
   }) 
 
   document.addEventListener('keyup', event => {
@@ -44,5 +43,8 @@ document.addEventListener('keydown', event => {
     }
     if (event.code === 'ArrowDown') {
         keyboard.DOWN = false;
+    }
+    if (event.code === 'ControlLeft') {
+        keyboard.CTRLL = false;
     }
   }) 

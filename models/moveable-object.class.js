@@ -23,10 +23,13 @@ class MoveableObject extends DrawableObject {
     }
 
     isAboveGround() {
-        return this.y < 175;
+        
+        if(this instanceof ThrowableObjects) {//Thrwoable Objects should always fall
+            return true
+        } else {
+            return this.y < 175;
+        }
     }
-
-
 
     isColliding (mo) {
         return this.x + this.width - this.offset.right > mo.x &&
@@ -54,6 +57,12 @@ class MoveableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    ChickenDead() {
+        console.log('dead');
+        this.speedY = 25;
+        
+    }
+
     moveLeft(speed, time){
         setInterval(() => {
             this.x -= speed;
@@ -66,7 +75,7 @@ class MoveableObject extends DrawableObject {
     }
 
     jump(){
-        this.speedY = 25;
+        this.speedY = 25; 
     }
 
     playAnimation(images) {

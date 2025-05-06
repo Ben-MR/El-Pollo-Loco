@@ -1,5 +1,6 @@
 class World {
     character = new Character ();
+    chicken = new Chicken();
     level = level1;
     canvas;
     ctx;
@@ -8,6 +9,7 @@ class World {
     statusBar = new StatusBar;
     statusBarCoin = new StatusBarCoin;
     statusBarBottle = new StatusBarBottle;
+    throwableObjects = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -15,23 +17,57 @@ class World {
         this.keyboard = keyboard
         this.draw();
         this.setWorld();
-        this.checkCollision();
+        this.run();
     }
 
     setWorld() {
         this.character.world = this; // Dadurch kann die Character-Klasse auf Keyboard zugreifen
     }
 
-    checkCollision() {
+    run() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if(this.character.isColliding(enemy)) {
-                    this.character.hit();  
-                    this.statusBar.setPercentage(this.statusBar.percentage -= 5);                                
-                }
-            });
+            this.checkCollisions();            
+            this.checkThrowObjects();
+            this.checkBottleCollisions();
+            this.collectCoins();
         }, 200);
     }
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if(this.character.isColliding(enemy)) {
+                this.character.hit();  
+                this.statusBar.setPercentage(this.statusBar.percentage -= 5);                                
+            }
+        });
+    }
+
+    checkThrowObjects() {
+        if(this.keyboard.CTRLL) {
+            let bottle = new ThrowableObjects (this.character.x +70, this.character.y + 100);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
+    checkBottleCollisions() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy)) {
+                    enemy.ChickenDead(enemy);
+                    bottle.enemyHit();
+                }
+            });
+        });
+    }
+
+    collectCoins() {
+        this.level.collectablesCoins.forEach((collectablesCoins) => {
+            if(this.character.isColliding(collectablesCoins)) {
+                this.character.coinsUp();                                 
+            }
+        });
+    }
+
 
     draw() {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);            
@@ -42,11 +78,13 @@ class World {
         this.ctx.translate(-this.camera_x, 0); //back
         this.addToMap(this.statusBar);    
         this.addToMap(this.statusBarCoin);     
-        this.addToMap(this.statusBarBottle);     
+        this.addToMap(this.statusBarBottle);          
         this.ctx.translate(this.camera_x, 0);  //forward 
-        
+
+        this.addObjectsToMap(this.throwableObjects);
         this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);          
+        this.addObjectsToMap(this.level.enemies); 
+        this.addObjectsToMap(this.level.collectablesCoins);          
         this.ctx.translate(-this.camera_x, 0);         
         //Draw wird immer wieder aufgerufen
         let self = this; //this funktioniert in der unteren Funktion nicht mehr, daher eine neue Variable

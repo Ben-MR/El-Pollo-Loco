@@ -3,6 +3,7 @@ class Character extends MoveableObject {
     width = 140;
     y = 175; 
     speed = 2.0;
+    coins = 0;
     offset = {
         top: 120,
         left: 30,
@@ -81,9 +82,16 @@ class Character extends MoveableObject {
                     this .playAnimation(this.imagesWalking);
                 } 
             } 
-        },  125);         
+        },  125);   
+    }
 
-       
+    coinsUp() {
+        console.log('test');
+        this.coins++;
+        console.log(this.coins);
+        
+        
+        
     }
 
     
