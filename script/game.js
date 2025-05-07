@@ -26,6 +26,9 @@ document.addEventListener('keydown', event => {
     if (event.code === 'ControlLeft') {
         keyboard.CTRLL = true;
     }
+    if (event.code === 'KeyP') {
+        keyboard.P = true;
+    }
   }) 
 
   document.addEventListener('keyup', event => {
@@ -46,5 +49,8 @@ document.addEventListener('keydown', event => {
     }
     if (event.code === 'ControlLeft') {
         keyboard.CTRLL = false;
+    }
+    if (event.code === 'KeyP') {
+        keyboard.P = false;
     }
   }) 

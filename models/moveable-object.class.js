@@ -10,6 +10,12 @@ class MoveableObject extends DrawableObject {
     };
     energy = 100;
     lastHit = 0;
+    world;
+
+    constructor(world) {
+        super();
+        this.world = world;
+    }
 
 
 
@@ -56,7 +62,7 @@ class MoveableObject extends DrawableObject {
         return this.energy == 0;
     }
 
-    moveLeft(speed, time){
+    moveLeft(speed, time){        
         setInterval(() => {
             this.x -= speed;
         }, time);        
@@ -72,9 +78,9 @@ class MoveableObject extends DrawableObject {
     }
 
     playAnimation(images) {
-            let i = this.currentImage % images.length;
-            let path = images[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 }

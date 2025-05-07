@@ -1,6 +1,8 @@
 class World {
+    paused = false;
     character = new Character ();
-    chicken = new Chicken();
+    chicken = new Chicken(world);
+    moveableObject = new MoveableObject(this);
     level = level1;
     canvas;
     ctx;
@@ -18,11 +20,35 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
+        this.pauseGame();
     }
 
     setWorld() {
         this.character.world = this; // Dadurch kann die Character-Klasse auf Keyboard zugreifen
     }
+
+pauseGame() {
+    if (this.keyboard.P) {
+        this.paused = !this.paused;
+
+        // Wenn pausiert wird, stoppe alle Bewegungen (Intervall)
+        if (this.paused) {
+            this.level.enemies.forEach(enemy => {
+                if (enemy.moveInterval) clearInterval(enemy.moveInterval);
+            });
+        } else {
+            // Wenn nicht pausiert, starte die Bewegungen neu
+            this.level.enemies.forEach(enemy => {
+                if (!enemy.moveInterval) {
+                    // Wenn kein Intervall läuft, starte es
+                    enemy.moveLeft(0.2, 1000 / 60);
+                }
+            });
+        }
+
+        this.draw();
+    }
+}
 
     run() {
         setInterval(() => {
@@ -31,6 +57,7 @@ class World {
             this.checkBottleCollisions();
             this.collectCoins();
             this.collectBottles();
+            this.pauseGame();
         }, 100);
     }
 
@@ -82,28 +109,30 @@ class World {
 
 
     draw() {
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);            
-        this.ctx.translate(this.camera_x, 0);        
-        this.addObjectsToMap(this.level.backgroundObjects); 
-        this.addObjectsToMap(this.level.cloud);       
-        //space for fixed Objects  
-        this.ctx.translate(-this.camera_x, 0); //back
-        this.addToMap(this.statusBar);    
-        this.addToMap(this.statusBarCoin);     
-        this.addToMap(this.statusBarBottle);          
-        this.ctx.translate(this.camera_x, 0);  //forward 
+        if(!this.paused) {
+            this.ctx.clearRect(0, 0, canvas.width, canvas.height);            
+            this.ctx.translate(this.camera_x, 0);        
+            this.addObjectsToMap(this.level.backgroundObjects); 
+            this.addObjectsToMap(this.level.cloud);       
+            //space for fixed Objects  
+            this.ctx.translate(-this.camera_x, 0); //back
+            this.addToMap(this.statusBar);    
+            this.addToMap(this.statusBarCoin);     
+            this.addToMap(this.statusBarBottle);          
+            this.ctx.translate(this.camera_x, 0);  //forward 
 
-        this.addObjectsToMap(this.throwableObjects);
-        this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies); 
-        this.addObjectsToMap(this.level.collectablesCoins);    
-        this.addObjectsToMap(this.level.collectablesBottles);        
-        this.ctx.translate(-this.camera_x, 0);         
-        //Draw wird immer wieder aufgerufen
-        let self = this; //this funktioniert in der unteren Funktion nicht mehr, daher eine neue Variable
-        requestAnimationFrame(function(){ // Funktion wird ausgeführt, sobald alles darüber fertig gezeichnet wurde, also wird asynchron später ausgeführt
-            self.draw();
-        });
+            this.addObjectsToMap(this.throwableObjects);
+            this.addToMap(this.character);
+            this.addObjectsToMap(this.level.collectablesCoins);    
+            this.addObjectsToMap(this.level.collectablesBottles);    
+            this.addObjectsToMap(this.level.enemies);     
+            this.ctx.translate(-this.camera_x, 0);         
+            //Draw wird immer wieder aufgerufen
+            let self = this; //this funktioniert in der unteren Funktion nicht mehr, daher eine neue Variable
+            requestAnimationFrame(function(){ // Funktion wird ausgeführt, sobald alles darüber fertig gezeichnet wurde, also wird asynchron später ausgeführt
+                self.draw();
+            });
+        }
     }
 
     addObjectsToMap(objects) {

@@ -10,6 +10,7 @@ class StatusBarCoin extends DrawableObject {
         '../img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
     ]
     coins = 0;
+    audio_newCoin = new Audio ('../audio/coin-recieved.mp3')
 
     constructor () {
         super();
@@ -45,6 +46,7 @@ class StatusBarCoin extends DrawableObject {
 
     coinsUp() {
         this.coins++;   
-        this.setCoins(this.coins);     
+        this.setCoins(this.coins);  
+        this.audio_newCoin.play();   
     }
 }

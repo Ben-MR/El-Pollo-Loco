@@ -42,6 +42,7 @@ class Character extends MoveableObject {
         '../img/2_character_pepe/4_hurt/H-43.png',
     ];
     world;
+    audio_jump = new Audio ('../audio/jump.mp3')
     
 
     constructor() {
@@ -66,6 +67,7 @@ class Character extends MoveableObject {
             this.world.camera_x = -this.x + 100
             if (this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+                this.audio_jump.play(); 
             }
         },60/1000);
 

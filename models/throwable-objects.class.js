@@ -24,6 +24,7 @@ class ThrowableObjects extends MoveableObject{
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         '../img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ]
+    audio_enemyHit = new Audio ('../audio/bottle-smash-107832.mp3')
 
     constructor(x, y) {
         super().loadImage('../img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
@@ -63,7 +64,8 @@ class ThrowableObjects extends MoveableObject{
         this.bottleHit = true;
         clearInterval(this.moveInterval);
         clearInterval(this.gravityIntervall);
-        this.animateBottleThrow();        
+        this.animateBottleThrow();   
+        this.audio_enemyHit.play();      
     }
 
     removeBottle() {
