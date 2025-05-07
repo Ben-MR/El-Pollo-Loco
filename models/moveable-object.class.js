@@ -36,11 +36,28 @@ class MoveableObject extends DrawableObject {
         }
     }
 
-    isColliding (mo) {
-        return this.x + this.width - this.offset.right > mo.x &&
-            this.y + this.height - this.offset.bottom > mo.y &&
-            this.x + this.offset.left < mo.x &&
-            this.y + this.offset.top < mo.y + mo.height
+    isCollidingComplete (mo) {
+        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x - mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+    }
+
+    isCollidingJump(enemy) {
+        const charBottom = this.y + this.height;
+        const enemyTop = enemy.y;
+    
+        const horizontalOverlap = this.x + this.width > enemy.x && this.x < enemy.x + enemy.width;
+        const verticalContact = charBottom <= enemyTop + 10 && charBottom >= enemyTop - 15; // Toleranz oben
+    
+        return horizontalOverlap && verticalContact && this.speedY < 0;
+    }
+   
+    isColliding(enemy) {
+        return this.x + this.width > enemy.x &&
+               this.x < enemy.x + enemy.width &&
+               this.y + this.height > enemy.y &&  // trifft von unten oder seitlich
+               this.y < enemy.y + enemy.height;
     }
 
     hit() {
@@ -54,8 +71,8 @@ class MoveableObject extends DrawableObject {
 
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;// Difference im ms
-        timePassed = timePassed / 1000; //Uwandlung in Sekunden        
-        return timePassed < 1;
+        timePassed = timePassed / 1000; //Uwandlung in Sekunden      
+        return timePassed < 1;       
     };
 
     isDead() {

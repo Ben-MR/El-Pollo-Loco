@@ -4,6 +4,15 @@ body {
     align-items: center;
 }
 
+.start-picture {
+    width: 720px;
+    height: 480px;
+}
+
 canvas {
     background-color: black;
+}
+
+.d-none {
+    display: none;
 }

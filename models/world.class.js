@@ -1,20 +1,22 @@
 class World {
-    paused = false;
-    character = new Character ();
-    chicken = new Chicken(world);
-    moveableObject = new MoveableObject(this);
-    level = level1;
+    paused = false;  
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar;
-    statusBarCoin = new StatusBarCoin;
-    statusBarBottle = new StatusBarBottle;
-    throwableObjects = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
+        this.chicken = new Chicken(this);
+        this.moveableObject = new MoveableObject(this);
+        this.level = level1;
+        this.endboss = new Endboss(this);
+        this.level.enemies.push(this.endboss);
+        this.statusBar = new StatusBar();
+        this.statusBarCoin = new StatusBarCoin();
+        this.statusBarBottle = new StatusBarBottle();
+        this.character = new Character ();
+        this.throwableObjects = [];
         this.canvas = canvas;
         this.keyboard = keyboard
         this.draw();
@@ -27,28 +29,12 @@ class World {
         this.character.world = this; // Dadurch kann die Character-Klasse auf Keyboard zugreifen
     }
 
-pauseGame() {
-    if (this.keyboard.P) {
-        this.paused = !this.paused;
-
-        // Wenn pausiert wird, stoppe alle Bewegungen (Intervall)
-        if (this.paused) {
-            this.level.enemies.forEach(enemy => {
-                if (enemy.moveInterval) clearInterval(enemy.moveInterval);
-            });
-        } else {
-            // Wenn nicht pausiert, starte die Bewegungen neu
-            this.level.enemies.forEach(enemy => {
-                if (!enemy.moveInterval) {
-                    // Wenn kein Intervall läuft, starte es
-                    enemy.moveLeft(0.2, 1000 / 60);
-                }
-            });
+    pauseGame() {
+        if(this.keyboard.P) {
+            this.paused = !this.paused;
+            this.draw();
         }
-
-        this.draw();
     }
-}
 
     run() {
         setInterval(() => {
@@ -58,14 +44,21 @@ pauseGame() {
             this.collectCoins();
             this.collectBottles();
             this.pauseGame();
+            
         }, 100);
     }
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if(this.character.isColliding(enemy)) {
-                this.character.hit();  
-                this.statusBar.setPercentage(this.statusBar.percentage -= 5);                                
+            if (this.character.isCollidingJump(enemy)) {
+                enemy.chickenHit();
+                this.character.speedY = 10; 
+            } else if (this.character.isColliding(enemy)) {
+                if (!this.character.isCollidingJump(enemy) && !this.character.isHurt()) {
+                    this.character.hit();
+                    this.statusBar.percentage = this.statusBar.percentage - 5;
+                    this.statusBar.setPercentage(this.statusBar.percentage);                 
+                }
             }
         });
     }
@@ -74,14 +67,14 @@ pauseGame() {
         if(this.keyboard.CTRLL && this.statusBarBottle.bottles > 0) {
             let bottle = new ThrowableObjects (this.character.x +70, this.character.y + 100);
             this.throwableObjects.push(bottle);
-            // this.statusBarBottle.bottlesDown(); 
+            //this.statusBarBottle.bottlesDown(); 
         }
     }
 
     checkBottleCollisions() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
-                if (bottle.isColliding(enemy)) {
+                if (bottle.isCollidingComplete(enemy)) {
                     enemy.chickenHit(enemy);
                     bottle.enemyHit();
                 }
@@ -91,7 +84,7 @@ pauseGame() {
 
     collectCoins() {
         this.level.collectablesCoins.forEach((collectablesCoins) => {
-            if(this.character.isColliding(collectablesCoins)) {
+            if(this.character.isCollidingComplete(collectablesCoins)) {
                 this.statusBarCoin.coinsUp();   
                 this.level.collectablesCoins.splice(collectablesCoins, 1);                             
             }
@@ -100,13 +93,12 @@ pauseGame() {
 
     collectBottles() {
         this.level.collectablesBottles.forEach((collectablesBottles) => {
-            if(this.character.isColliding(collectablesBottles)) {
+            if(this.character.isCollidingComplete(collectablesBottles)) {
                 this.statusBarBottle.bottlesUp();   
                 this.level.collectablesBottles.splice(collectablesBottles, 1);                             
             }
         });
     }
-
 
     draw() {
         if(!this.paused) {
@@ -147,6 +139,7 @@ pauseGame() {
         }
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
+        mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }

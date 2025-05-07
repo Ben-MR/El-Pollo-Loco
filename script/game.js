@@ -3,6 +3,14 @@ let world;
 let keyboard = new Keyboard;
 
 function init() {
+    // canvas = document.getElementById('canvas');
+    // world = new World (canvas, keyboard);  
+}
+
+function startGame() {
+    document.getElementById('startPicture').classList.add('d-none');
+    document.getElementById('canvas').classList.remove('d-none');
+    initLevel();
     canvas = document.getElementById('canvas');
     world = new World (canvas, keyboard);  
 }

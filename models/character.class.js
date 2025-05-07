@@ -3,50 +3,52 @@ class Character extends MoveableObject {
     width = 140;
     y = 175; 
     speed = 2.0;
+    audioPlayedDuringHurt = false;
     offset = {
-        top: 120,
-        left: 30,
-        right: 40,
-        bottom: 30
+        top: 110,
+        left: 15,
+        right: 35,
+        bottom: 5
     }
     imagesWalking = [
-        '../img/2_character_pepe/2_walk/W-21.png',
-        '../img/2_character_pepe/2_walk/W-22.png',
-        '../img/2_character_pepe/2_walk/W-23.png',
-        '../img/2_character_pepe/2_walk/W-24.png',
-        '../img/2_character_pepe/2_walk/W-25.png',
-        '../img/2_character_pepe/2_walk/W-26.png',
+        './img/2_character_pepe/2_walk/W-21.png',
+        './img/2_character_pepe/2_walk/W-22.png',
+        './img/2_character_pepe/2_walk/W-23.png',
+        './img/2_character_pepe/2_walk/W-24.png',
+        './img/2_character_pepe/2_walk/W-25.png',
+        './img/2_character_pepe/2_walk/W-26.png',
     ];
     images_jumping = [
-        '../img/2_character_pepe/3_jump/J-31.png',
-        '../img/2_character_pepe/3_jump/J-33.png',
-        '../img/2_character_pepe/3_jump/J-34.png',
-        '../img/2_character_pepe/3_jump/J-35.png',
-        '../img/2_character_pepe/3_jump/J-36.png',
-        '../img/2_character_pepe/3_jump/J-37.png',
-        '../img/2_character_pepe/3_jump/J-38.png',
-        '../img/2_character_pepe/3_jump/J-39.png',
+        './img/2_character_pepe/3_jump/J-31.png',
+        './img/2_character_pepe/3_jump/J-33.png',
+        './img/2_character_pepe/3_jump/J-34.png',
+        './img/2_character_pepe/3_jump/J-35.png',
+        './img/2_character_pepe/3_jump/J-36.png',
+        './img/2_character_pepe/3_jump/J-37.png',
+        './img/2_character_pepe/3_jump/J-38.png',
+        './img/2_character_pepe/3_jump/J-39.png',
     ];
     images_dead = [
-        '../img/2_character_pepe/5_dead/D-51.png',
-        '../img/2_character_pepe/5_dead/D-52.png',
-        '../img/2_character_pepe/5_dead/D-53.png',
-        '../img/2_character_pepe/5_dead/D-54.png',
-        '../img/2_character_pepe/5_dead/D-55.png',
-        '../img/2_character_pepe/5_dead/D-56.png',
-        '../img/2_character_pepe/5_dead/D-57.png',
+        './img/2_character_pepe/5_dead/D-51.png',
+        './img/2_character_pepe/5_dead/D-52.png',
+        './img/2_character_pepe/5_dead/D-53.png',
+        './img/2_character_pepe/5_dead/D-54.png',
+        './img/2_character_pepe/5_dead/D-55.png',
+        './img/2_character_pepe/5_dead/D-56.png',
+        './img/2_character_pepe/5_dead/D-57.png',
     ];
     images_hurt = [
-        '../img/2_character_pepe/4_hurt/H-41.png',
-        '../img/2_character_pepe/4_hurt/H-42.png',
-        '../img/2_character_pepe/4_hurt/H-43.png',
+        './img/2_character_pepe/4_hurt/H-41.png',
+        './img/2_character_pepe/4_hurt/H-42.png',
+        './img/2_character_pepe/4_hurt/H-43.png',
     ];
     world;
-    audio_jump = new Audio ('../audio/jump.mp3')
+    audio_jump = new Audio ('./audio/jump.mp3');
+    audio_hit = new Audio ('./audio/character_hit2.mp3');
     
 
     constructor() {
-        super().loadImage('../img/2_character_pepe/1_idle/idle/I-1.png');
+        super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.imagesWalking);
         this.loadImages(this.images_jumping);
         this.loadImages(this.images_dead);
@@ -56,7 +58,7 @@ class Character extends MoveableObject {
     }
 
     animate() {          
-        setInterval(() => {
+        this.charakterMoveAnimation = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
             };
@@ -71,19 +73,37 @@ class Character extends MoveableObject {
             }
         },60/1000);
 
-        setInterval(() => {            
+        this.charakterAnimation = setInterval(() => {
             if (this.isDead()) {
-                this.playAnimation(this.images_dead);    
+                   this.characterDead();
             } else if (this.isHurt()) {
-               this.playAnimation(this.images_dead);   
-            }else if (this.isAboveGround()) {
+                this.playAnimation(this.images_dead);   
+                if (!this.audioPlayedDuringHurt) {
+                    this.audio_hit.play(); 
+                    this.audioPlayedDuringHurt = true;
+                }        
+            } else if (this.isAboveGround()) {
                 this.playAnimation(this.images_jumping);
+                this.audioPlayedDuringHurt = false; // Reset
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {                         
-                    this .playAnimation(this.imagesWalking);
-                } 
-            } 
-        },  125);   
+                    this.playAnimation(this.imagesWalking);
+                }
+                this.audioPlayedDuringHurt = false; // Reset, wenn wieder normal
+            }
+        }, 125);
+    }
+
+    characterDead() {
+        this.playAnimation(this.images_dead); 
+        clearInterval(this.charakterAnimation);
+        clearInterval(this.charakterMoveAnimation);
+        setInterval(() => {
+            this.y += 10;
+        }, 50); 
+        setTimeout(() => {
+            this.world.paused = true;
+        }, 2000);       
     }
 
 

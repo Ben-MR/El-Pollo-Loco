@@ -2,15 +2,15 @@ class StatusBarCoin extends DrawableObject {
 
     
     images_statusbar_coin = [
-        '../img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
-        '../img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png',
-        '../img/7_statusbars/1_statusbar/1_statusbar_coin/green/40.png',
-        '../img/7_statusbars/1_statusbar/1_statusbar_coin/green/60.png',
-        '../img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
-        '../img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
+        './img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
+        './img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png',
+        './img/7_statusbars/1_statusbar/1_statusbar_coin/green/40.png',
+        './img/7_statusbars/1_statusbar/1_statusbar_coin/green/60.png',
+        './img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
+        './img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
     ]
     coins = 0;
-    audio_newCoin = new Audio ('../audio/coin-recieved.mp3')
+    audio_newCoin = new Audio ('./audio/coin-recieved.mp3')
 
     constructor () {
         super();
