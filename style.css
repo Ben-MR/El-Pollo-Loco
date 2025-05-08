@@ -29,9 +29,25 @@ h1 {
     font-size: 158x;
 }
 
+.canvas-container {
+    width: 720px;
+    height: 480px;
+    position: relative;
+}
+
 canvas {
     background-color: black;
     display: block;
+    position: relative;
+}
+
+.fullscreen {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    z-index: 100;
+    bottom: 15px;
+    right: 25px;
 }
 
 .control-container {

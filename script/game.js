@@ -11,6 +11,7 @@ function startGame() {
     document.getElementById('startPicture').classList.add('d-none');
     document.getElementById('gameOverPicture').classList.add('d-none');
     document.getElementById('canvas').classList.remove('d-none');
+    document.getElementById('canvas-container').classList.remove('d-none');
     document.getElementById('gameWonPicture').classList.add('d-none');
     initLevel();
     canvas = document.getElementById('canvas');
@@ -64,3 +65,7 @@ document.addEventListener('keydown', event => {
         keyboard.P = false;
     }
   }) 
+
+function fullScreenOn() {
+    canvas.requestFullscreen();
+}

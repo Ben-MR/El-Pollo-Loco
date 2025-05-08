@@ -36,9 +36,12 @@
     <img onclick="startGame()" id="gameWonPicture" class="game-over-picture d-none" src="./img/You won, you lost/You won A.png" alt="">
 
 
-
-    <canvas id="canvas" width="720px" height="480px" class="d-none">
-    </canvas>
+    <div id="canvas-container"class="canvas-container d-none">
+        <canvas id="canvas" width="720px" height="480px" class="d-none"></canvas>
+        <img onclick="fullScreenOn()" class="fullscreen" src="./img/fullscreen (1).png" alt="">
+    </div>
+    
+    
     <div class="control-container">
         <span>arrow left/right: move</span>
         <span>arrow-up/space: jump</span>
