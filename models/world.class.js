@@ -35,6 +35,7 @@ class World {
         if(this.keyboard.P) {
             this.paused = !this.paused;
             this.draw();
+            clearInterval(this.moveableObject.moveLeftInterval);
         }
     }
 

@@ -71,6 +71,7 @@ class Character extends MoveableObject {
             };
             this.world.camera_x = -this.x + 100
             if (this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()) {
+                this.jumpAnima = true;
                 this.jump();
                 this.audio_jump.play(); 
             }
@@ -99,14 +100,16 @@ class Character extends MoveableObject {
     }
 
     jumpAnimation() {
-        if(this.jumpFrame<8){
-            this.playAnimation(this.images_jumping);
-            this.jumpFrame++
+        if(this.jumpFrame < (this.images_jumping.length - 1)){
+            let image = this.images_jumping[this.jumpFrame];
+            this.img = this.imageCache[image];
+            this.jumpFrame++;
         }else{
             this.jumpAnima = false;
             this.jumpFrame = 0;
         }
         console.log(this.jumpFrame);
+        console.log(this.jumpAnima);
         
         
     }

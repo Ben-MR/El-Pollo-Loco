@@ -17,8 +17,6 @@ class MoveableObject extends DrawableObject {
         this.world = world;
     }
 
-
-
     applyGravity(){
         this.gravityIntervall = setInterval(() => {
             if(this.isAboveGround() || this.speedY > 0){
@@ -44,22 +42,18 @@ class MoveableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
         );
     }
-    
+
     isCollidingJump(enemy) {
         const characterBottom = this.y + this.height;
-        const enemyTop = enemy.y;
-    
-        const horizontalBuffer = 30; // Mehr Spielraum nach links und rechts
-        const verticalBuffer = 30;   // Mehr Spielraum von oben
-    
+        const enemyTop = enemy.y;    
+        const horizontalBuffer = 30; 
+        const verticalBuffer = 30;    
         const horizontalOverlap =
             (this.x + this.width) > (enemy.x - horizontalBuffer) &&
-            this.x < (enemy.x + enemy.width + horizontalBuffer);
-    
+            this.x < (enemy.x + enemy.width + horizontalBuffer);    
         const verticalContact =
             characterBottom > (enemyTop - verticalBuffer) &&
-            characterBottom < (enemyTop + verticalBuffer);
-    
+            characterBottom < (enemyTop + verticalBuffer);    
         return horizontalOverlap && verticalContact && this.speedY < 0;
     }
    
@@ -90,9 +84,11 @@ class MoveableObject extends DrawableObject {
     }
 
     moveLeft(speed, time){        
-        setInterval(() => {
-            this.x -= speed;
-        }, time);        
+        this.moveLeftInterval = setInterval(() => {
+            if (!this.world || !this.world.paused) {
+                this.x -= speed;  
+            }                      
+        }, time);      
     }    
 
     moveRight() {

@@ -15,7 +15,6 @@ function startGame() {
     initLevel();
     canvas = document.getElementById('canvas');
     world = new World (canvas, keyboard);  
-    console.log(world.gameOver);    
 }
 
 document.addEventListener('keydown', event => {
