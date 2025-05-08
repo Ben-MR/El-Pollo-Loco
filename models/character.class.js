@@ -4,6 +4,8 @@ class Character extends MoveableObject {
     y = 175; 
     speed = 2.0;
     audioPlayedDuringHurt = false;
+    jumpAnima = true;
+    jumpFrame = 0;
     offset = {
         top: 110,
         left: 15,
@@ -45,6 +47,7 @@ class Character extends MoveableObject {
     world;
     audio_jump = new Audio ('./audio/jump.mp3');
     audio_hit = new Audio ('./audio/character_hit2.mp3');
+    audio_death = new Audio ('./audio/character_death.mp3');
     
 
     constructor() {
@@ -75,35 +78,51 @@ class Character extends MoveableObject {
 
         this.charakterAnimation = setInterval(() => {
             if (this.isDead()) {
-                   this.characterDead();
+                this.audio_death.play();    
+                this.characterDead();
             } else if (this.isHurt()) {
-                this.playAnimation(this.images_dead);   
+                this.playAnimation(this.images_hurt);   
                 if (!this.audioPlayedDuringHurt) {
                     this.audio_hit.play(); 
                     this.audioPlayedDuringHurt = true;
                 }        
-            } else if (this.isAboveGround()) {
-                this.playAnimation(this.images_jumping);
-                this.audioPlayedDuringHurt = false; // Reset
+            } else if (this.isAboveGround() && this.jumpAnima === true) {
+                this.jumpAnimation();
+                this.audioPlayedDuringHurt = false; 
             } else {
                 if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {                         
                     this.playAnimation(this.imagesWalking);
                 }
-                this.audioPlayedDuringHurt = false; // Reset, wenn wieder normal
+                this.audioPlayedDuringHurt = false;  
             }
-        }, 125);
+        }, 100);
+    }
+
+    jumpAnimation() {
+        if(this.jumpFrame<8){
+            this.playAnimation(this.images_jumping);
+            this.jumpFrame++
+        }else{
+            this.jumpAnima = false;
+            this.jumpFrame = 0;
+        }
+        console.log(this.jumpFrame);
+        
+        
     }
 
     characterDead() {
         this.playAnimation(this.images_dead); 
         clearInterval(this.charakterAnimation);
         clearInterval(this.charakterMoveAnimation);
-        setInterval(() => {
-            this.y += 10;
-        }, 50); 
         setTimeout(() => {
-            this.world.paused = true;
-        }, 2000);       
+            setInterval(() => {
+                this.y += 10;                
+            }, 50);             
+        }, 1000);
+        setTimeout(() => {
+            this.world.gameOver = true;
+        }, 2800);       
     }
 
 

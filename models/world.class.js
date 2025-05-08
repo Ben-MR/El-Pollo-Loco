@@ -1,5 +1,7 @@
 class World {
     paused = false;  
+    gameOver = false;
+    gameWon = false;
     canvas;
     ctx;
     keyboard;
@@ -44,8 +46,9 @@ class World {
             this.collectCoins();
             this.collectBottles();
             this.pauseGame();
-            
-        }, 100);
+            this.gameOverFunction();
+            this.gameWonFunction();
+        }, 200);
     }
 
     checkCollisions() {
@@ -98,6 +101,30 @@ class World {
                 this.level.collectablesBottles.splice(collectablesBottles, 1);                             
             }
         });
+    }
+
+    gameOverFunction() {
+        if (this.gameOver) {
+            this.paused = !this.paused;
+            this.gameOver = false;
+            document.getElementById('gameOverPicture').classList.remove('d-none');
+        }
+    }
+
+    gameOverFunction() {
+        if (this.gameOver) {
+            this.paused = !this.paused;
+            this.gameOver = false;
+            document.getElementById('gameOverPicture').classList.remove('d-none');
+        }
+    }
+
+    gameWonFunction() {
+        if (this.gameWon) {
+            this.paused = !this.paused;
+            this.gameWon = false;
+            document.getElementById('gameWonPicture').classList.remove('d-none');
+        }
     }
 
     draw() {
@@ -156,6 +183,8 @@ class World {
         mo.x = mo.x * - 1;
         this.ctx.restore();
     }
+
+
 
 
 }

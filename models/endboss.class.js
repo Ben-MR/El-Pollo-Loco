@@ -5,6 +5,8 @@ class Endboss extends MoveableObject {
     width = 230;
     energy = 3;
     lastHit = 0;
+    hurt = false;
+    firtContact = false;
     offset = {
         top: 10,
         left: 5,
@@ -37,45 +39,105 @@ class Endboss extends MoveableObject {
         './img/4_enemie_boss_chicken/5_dead/G24.png',
         './img/4_enemie_boss_chicken/5_dead/G25.png',
         './img/4_enemie_boss_chicken/5_dead/G26.png',
+    ];
+    images_Attack = [
+        './img/4_enemie_boss_chicken/3_attack/G13.png',
+        './img/4_enemie_boss_chicken/3_attack/G14.png',
+        './img/4_enemie_boss_chicken/3_attack/G15.png',
+        './img/4_enemie_boss_chicken/3_attack/G16.png',
+        './img/4_enemie_boss_chicken/3_attack/G17.png',
+        './img/4_enemie_boss_chicken/3_attack/G18.png',
+        './img/4_enemie_boss_chicken/3_attack/G19.png',
+        './img/4_enemie_boss_chicken/3_attack/G20.png',
     ]
 
     constructor(world) {
         super(world); 
         this.world = world;
+        this.moveInterval = null;
         this.loadImage(this.images_Walking[0]); 
         this.loadImages(this.images_Walking);
         this.loadImages(this.images_Alert);
         this.loadImages(this.images_Hurt);
         this.loadImages(this.images_Dead);
+        this.loadImages(this.images_Attack);
         this.animate();
     }
 
     animate() {
+        if (this.endbossAnimation) {
+            clearInterval(this.endbossAnimation);
+        }
+        let i = 0
         this.endbossAnimation = setInterval(() => {
-            if (this.energy === 3) {
-                this.playAnimation(this.images_Walking);
-            }else if(this.energy === 2) {
-                this.playAnimation(this.images_Walking);
-            }else if(this.energy === 1){
-                this.playAnimation(this.images_Hurt);
-            }else if(this.energy === 0) {
-                this.playAnimation(this.images_Dead);
-                this.endGame();
+            if (i < 9) {
+                this.playAnimation(this.images_Alert);
+            }else {
+                if (this.energy > 0 && this.firtContact && !this.hurt && (this.x - this.world.character.x < 170)){
+                    this.playAnimation(this.images_Attack);     
+                    this.stopMove();               
+                }else if (this.energy > 0  && !this.hurt && this.firtContact) {
+                    this.playAnimation(this.images_Walking);
+                    this.startMove();
+                }else if (this.energy > 0 && this.hurt) {
+                    this.playAnimation(this.images_Hurt);
+                    this.hurt = false;
+                    this.stopMove();
+                }else if (this.energy === 0){
+                    this.playAnimation(this.images_Dead);
+                    this.stopMove();
+                    this.endGame();
+                }
             }
-        }, 150);
-       // this.moveLeft((0.2 + Math.random() * 0.25), 1000/60); 
-    }  
+            i++;
+            if (this.world.character.x > 1660 && !this.firtContact) {
+                this.firtContact = true;
+                i = 0;                              
+            }            
+        },150)
+    }
+    startMove() {
+        if (this.moveInterval) return; // Schon aktiv, nichts tun
+    
+        this.moveInterval = setInterval(() => {
+            this.x -= 2; // oder dein Speed
+        }, 1000 / 60); // ca. 60 FPS
+    }
+
+    stopMove() {
+        if (this.moveInterval) {
+            clearInterval(this.moveInterval);
+            this.moveInterval = null;
+        }
+    }
+
+    // animate() {
+    //     this.endbossAnimation = setInterval(() => {
+    //         if (this.energy === 3) {
+    //             this.playAnimation(this.images_Walking);
+    //         }else if(this.energy === 2) {
+    //             this.playAnimation(this.images_Walking);
+    //         }else if(this.energy === 1){
+    //             this.playAnimation(this.images_Hurt);
+    //         }else if(this.energy === 0) {
+    //             this.playAnimation(this.images_Dead);
+    //             this.endGame();
+    //         }
+    //     }, 150);
+    //    // this.moveLeft((0.2 + Math.random() * 0.25), 1000/60); 
+    // }  
 
     endGame() {
         setTimeout(() => {
             clearInterval(this.endbossAnimation);
-            this.world.paused = true;
+            this.world.gameWon = true;            
         }, 2000);
         
     }
 
     chickenHit() {
         if (this.isHurt()) return;
+        this.hurt = true;
         this.energy--;
         console.log(this.energy);    
         if (this.energy < 0) {

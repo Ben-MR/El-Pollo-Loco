@@ -9,10 +9,13 @@ function init() {
 
 function startGame() {
     document.getElementById('startPicture').classList.add('d-none');
+    document.getElementById('gameOverPicture').classList.add('d-none');
     document.getElementById('canvas').classList.remove('d-none');
+    document.getElementById('gameWonPicture').classList.add('d-none');
     initLevel();
     canvas = document.getElementById('canvas');
     world = new World (canvas, keyboard);  
+    console.log(world.gameOver);    
 }
 
 document.addEventListener('keydown', event => {

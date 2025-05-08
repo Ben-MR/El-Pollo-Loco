@@ -8,7 +8,7 @@ class MoveableObject extends DrawableObject {
         right: 0,
         bottom: 0
     };
-    energy = 100;
+    energy = 50;
     lastHit = 0;
     world;
 
@@ -36,19 +36,29 @@ class MoveableObject extends DrawableObject {
         }
     }
 
-    isCollidingComplete (mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+    isCollidingComplete(mo) {
+        return (
+            this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-            this.x + this.offset.left < mo.x - mo.offset.right &&
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
+        );
     }
-
+    
     isCollidingJump(enemy) {
-        const charBottom = this.y + this.height;
+        const characterBottom = this.y + this.height;
         const enemyTop = enemy.y;
     
-        const horizontalOverlap = this.x + this.width > enemy.x && this.x < enemy.x + enemy.width;
-        const verticalContact = charBottom <= enemyTop + 10 && charBottom >= enemyTop - 15; // Toleranz oben
+        const horizontalBuffer = 30; // Mehr Spielraum nach links und rechts
+        const verticalBuffer = 30;   // Mehr Spielraum von oben
+    
+        const horizontalOverlap =
+            (this.x + this.width) > (enemy.x - horizontalBuffer) &&
+            this.x < (enemy.x + enemy.width + horizontalBuffer);
+    
+        const verticalContact =
+            characterBottom > (enemyTop - verticalBuffer) &&
+            characterBottom < (enemyTop + verticalBuffer);
     
         return horizontalOverlap && verticalContact && this.speedY < 0;
     }

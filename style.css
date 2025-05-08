@@ -1,12 +1,63 @@
+/* rye-regular - latin */
+@font-face {
+    font-display: swap; 
+    font-family: 'Rye';
+    font-style: normal;
+    font-weight: 400;
+    src: url('./fonts/rye-v15-latin-regular.woff2') format('woff2'); 
+}
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: url('./img/desert-5112222_1920.png');
+    background-position: center;
+    font-family: 'Rye';
+}
+
+h1 {
+    font-size: 50px;
+    margin: 55px 0 10px 0;
+    letter-spacing: 3px;
+    color: rgb(177, 63, 14);
+    text-shadow: 2px 6px 2px rgb(0, 0, 0, 0.5);
+}
+
+.click-start-container {
+    margin-bottom: 15px;
+    font-size: 158x;
+}
+
+canvas {
+    background-color: black;
+    display: block;
+}
+
+.control-container {
+    width: 720px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 20px;
+    color: black;
 }
 
 .start-picture {
     width: 720px;
     height: 480px;
+    cursor: pointer;
+    object-fit: contain;
+}
+
+.game-over-picture {
+    position: absolute;
+    top: 43%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    z-index: 10;
+    cursor: pointer;
 }
 
 canvas {
@@ -15,4 +66,24 @@ canvas {
 
 .d-none {
     display: none;
+}
+
+@media only screen and (max-width: 760px){
+    canvas {
+        width: 100%;
+    }
+
+    .start-picture {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+
+    .start-picture {
+        height: 100vh;
+    }
 }
