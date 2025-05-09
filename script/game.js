@@ -5,7 +5,7 @@ let music = new Audio ('./audio/music.mp3');
 music.volume = 0.2;
 
 function init() {
-    
+    mobilePlay();
 }
 
 function startGame() {
@@ -44,7 +44,7 @@ document.addEventListener('keydown', event => {
     }
   }) 
 
-  document.addEventListener('keyup', event => {
+ document.addEventListener('keyup', event => {
     if (event.code === 'Space') {
       keyboard.SPACE = false;
     }
@@ -67,6 +67,60 @@ document.addEventListener('keydown', event => {
         keyboard.P = false;
     }
   }) 
+
+function mobilePlay() {
+    document.getElementById('buttonLeft').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = true;
+    });
+
+    document.getElementById('buttonLeft').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.LEFT = false;
+    });
+
+    document.getElementById('buttonRight').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = true;
+    });
+
+    document.getElementById('buttonRight').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.RIGHT = false;
+    });
+
+    document.getElementById('buttonJump').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = true;
+    });
+
+    document.getElementById('buttonJump').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.SPACE = false;
+    });
+
+    document.getElementById('buttonThrow').addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        keyboard.CTRLL = true;
+    });
+
+    document.getElementById('buttonThrow').addEventListener('touchend', (e) => {
+        e.preventDefault();
+        keyboard.CTRLL = false;
+    });
+}
+
+function musicOn() {
+    document.getElementById('musicOn').classList.toggle('d-none');
+    document.getElementById('musicOff').classList.toggle('d-none');
+    music.play();
+}
+
+function musicOff() {
+    document.getElementById('musicOn').classList.toggle('d-none');
+    document.getElementById('musicOff').classList.toggle('d-none');
+    music.pause();
+}
 
 function fullScreenOn() {
     canvas.requestFullscreen();

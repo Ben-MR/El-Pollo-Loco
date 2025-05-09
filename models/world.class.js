@@ -21,7 +21,7 @@ class World {
         this.character = new Character ();
         this.throwableObjects = [];
         this.canvas = canvas;
-        this.keyboard = keyboard;
+        this.keyboard = keyboard; 
         this.draw();
         this.setWorld();
         this.run();
@@ -37,6 +37,7 @@ class World {
             this.paused = !this.paused;
             this.draw();
             clearInterval(this.moveableObject.moveLeftInterval);
+            music.pause();
         }
     }
 

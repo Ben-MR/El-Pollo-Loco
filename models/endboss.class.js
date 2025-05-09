@@ -64,8 +64,10 @@ class Endboss extends MoveableObject {
         this.loadImages(this.images_Attack);
         this.animate();
         this.audio_chicken_angry = new Audio ('./audio/angry-chicken.mp3');
-        this.audio_boss_music = new Audio('audio/music_fast.mp3');
+        this.audio_boss_music = new Audio('./audio/music_fast.mp3');
         this.audio_boss_music.volume = 0.5;
+        this.audio_boss_intro = new Audio('./audio/boss-intro2.mp3');
+        this.audio_boss_intro.volume = 0.3;
     }
 
     animate() {
@@ -118,6 +120,7 @@ class Endboss extends MoveableObject {
 
     bossIntro() {
         music.pause(); 
+        this.audio_boss_intro.play();
     }
 
     playSound() {
@@ -129,8 +132,9 @@ class Endboss extends MoveableObject {
     endGame() {
         setTimeout(() => {
             clearInterval(this.endbossAnimation);
-            stopMove();
-            this.world.gameWon = true;            
+            this.stopMove();
+            this.world.gameWon = true;     
+            music.pause();        
         }, 2000);        
     }
 
