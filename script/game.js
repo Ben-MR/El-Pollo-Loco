@@ -1,10 +1,11 @@
 let canvas;
 let world;
 let keyboard = new Keyboard;
+let music = new Audio ('./audio/music.mp3');
+music.volume = 0.2;
 
 function init() {
-    // canvas = document.getElementById('canvas');
-    // world = new World (canvas, keyboard);  
+    
 }
 
 function startGame() {
@@ -16,6 +17,7 @@ function startGame() {
     initLevel();
     canvas = document.getElementById('canvas');
     world = new World (canvas, keyboard);  
+    music.play();
 }
 
 document.addEventListener('keydown', event => {

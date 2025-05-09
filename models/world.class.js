@@ -6,6 +6,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    allIntervals = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -20,7 +21,7 @@ class World {
         this.character = new Character ();
         this.throwableObjects = [];
         this.canvas = canvas;
-        this.keyboard = keyboard
+        this.keyboard = keyboard;
         this.draw();
         this.setWorld();
         this.run();
@@ -40,7 +41,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        this.runInterval = setInterval(() => {
             this.checkCollisions();            
             this.checkThrowObjects();
             this.checkBottleCollisions();
@@ -50,6 +51,7 @@ class World {
             this.gameOverFunction();
             this.gameWonFunction();
         }, 200);
+        this.allIntervals.push(this.runInterval);
     }
 
     checkCollisions() {
@@ -81,6 +83,8 @@ class World {
                 if (bottle.isCollidingComplete(enemy)) {
                     enemy.chickenHit(enemy);
                     bottle.enemyHit();
+                }else if (bottle.y > 500) {
+                    this.throwableObjects.splice(bottle, 1)
                 }
             });
         });

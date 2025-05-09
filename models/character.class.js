@@ -108,10 +108,6 @@ class Character extends MoveableObject {
             this.jumpAnima = false;
             this.jumpFrame = 0;
         }
-        console.log(this.jumpFrame);
-        console.log(this.jumpAnima);
-        
-        
     }
 
     characterDead() {

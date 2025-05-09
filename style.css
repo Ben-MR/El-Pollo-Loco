@@ -89,6 +89,10 @@ canvas {
         width: 100%;
     }
 
+    .canvas-container {
+        width: 100%;
+    }
+
     .start-picture {
         width: 100%;
     }
@@ -96,6 +100,10 @@ canvas {
 
 @media only screen and (max-height: 480px) {
     canvas {
+        height: 100vh;
+    }
+
+    .canvas-container {
         height: 100vh;
     }
 

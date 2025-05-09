@@ -49,7 +49,8 @@ class Endboss extends MoveableObject {
         './img/4_enemie_boss_chicken/3_attack/G18.png',
         './img/4_enemie_boss_chicken/3_attack/G19.png',
         './img/4_enemie_boss_chicken/3_attack/G20.png',
-    ]
+    ];
+    
 
     constructor(world) {
         super(world); 
@@ -62,6 +63,9 @@ class Endboss extends MoveableObject {
         this.loadImages(this.images_Dead);
         this.loadImages(this.images_Attack);
         this.animate();
+        this.audio_chicken_angry = new Audio ('./audio/angry-chicken.mp3');
+        this.audio_boss_music = new Audio('audio/music_fast.mp3');
+        this.audio_boss_music.volume = 0.5;
     }
 
     animate() {
@@ -79,6 +83,7 @@ class Endboss extends MoveableObject {
                 }else if (this.energy > 0  && !this.hurt && this.firtContact) {
                     this.playAnimation(this.images_Walking);
                     this.startMove();
+                    this.playSound();
                 }else if (this.energy > 0 && this.hurt) {
                     this.playAnimation(this.images_Hurt);
                     this.hurt = false;
@@ -91,17 +96,17 @@ class Endboss extends MoveableObject {
             }
             i++;
             if (this.world.character.x > 1660 && !this.firtContact) {
+                this.bossIntro();
                 this.firtContact = true;
                 i = 0;                              
             }            
         },150)
     }
     startMove() {
-        if (this.moveInterval) return; // Schon aktiv, nichts tun
-    
-        this.moveInterval = setInterval(() => {
-            this.x -= 2; // oder dein Speed
-        }, 1000 / 60); // ca. 60 FPS
+        if (this.moveInterval) return;     
+            this.moveInterval = setInterval(() => {
+                this.x -= 2; 
+        }, 1000 / 60); 
     }
 
     stopMove() {
@@ -111,28 +116,22 @@ class Endboss extends MoveableObject {
         }
     }
 
-    // animate() {
-    //     this.endbossAnimation = setInterval(() => {
-    //         if (this.energy === 3) {
-    //             this.playAnimation(this.images_Walking);
-    //         }else if(this.energy === 2) {
-    //             this.playAnimation(this.images_Walking);
-    //         }else if(this.energy === 1){
-    //             this.playAnimation(this.images_Hurt);
-    //         }else if(this.energy === 0) {
-    //             this.playAnimation(this.images_Dead);
-    //             this.endGame();
-    //         }
-    //     }, 150);
-    //    // this.moveLeft((0.2 + Math.random() * 0.25), 1000/60); 
-    // }  
+    bossIntro() {
+        music.pause(); 
+    }
+
+    playSound() {
+        this.audio_chicken_angry.play();
+        this.audio_boss_music.play();
+               
+    }
 
     endGame() {
         setTimeout(() => {
             clearInterval(this.endbossAnimation);
+            stopMove();
             this.world.gameWon = true;            
-        }, 2000);
-        
+        }, 2000);        
     }
 
     chickenHit() {

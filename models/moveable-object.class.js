@@ -24,6 +24,7 @@ class MoveableObject extends DrawableObject {
             this.speedY -= this.acceleration;
             }
         }, 1000/25 );
+        
     }
 
     isAboveGround() {        
@@ -60,7 +61,7 @@ class MoveableObject extends DrawableObject {
     isColliding(enemy) {
         return this.x + this.width > enemy.x &&
                this.x < enemy.x + enemy.width &&
-               this.y + this.height > enemy.y &&  // trifft von unten oder seitlich
+               this.y + this.height > enemy.y &&  
                this.y < enemy.y + enemy.height;
     }
 
