@@ -14,7 +14,7 @@ function startGame() {
     document.getElementById('canvas').classList.remove('d-none');
     document.getElementById('canvas-container').classList.remove('d-none');
     document.getElementById('gameWonPicture').classList.add('d-none');
-    initLevel();
+    initLevel();    
     canvas = document.getElementById('canvas');
     world = new World (canvas, keyboard);  
     music.play();
@@ -123,5 +123,41 @@ function musicOff() {
 }
 
 function fullScreenOn() {
-    canvas.requestFullscreen();
+    let fullscreen = document.getElementById('canvas-container');
+    enterFullscreen(fullscreen);
+    const canvas = document.getElementById('canvas');
+    setTimeout(() => {
+        canvas.style.width = '100vw';
+        canvas.style.height = '100vh';
+    }, 100);
+    document.getElementById('fullScreenOn').classList.add('d-none');
+    document.getElementById('fullScreenOff').classList.remove('d-none');
 }
+
+function enterFullscreen(element) {
+    if(element.requestFullscreen) {
+       element.requestFullscreen() 
+    }else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    }else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    }    
+}
+
+function exitFullscreen () {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    }else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
+    const canvas = document.getElementById("canvas");
+    document.getElementById('fullScreenOn').classList.remove('d-none');
+    document.getElementById('fullScreenOff').classList.add('d-none');
+    setTimeout(() => {
+        canvas.style.width = '720px';
+        canvas.style.height = '480px';
+    }, 100);
+}
+
+
+

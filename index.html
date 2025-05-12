@@ -38,7 +38,8 @@
 
     <div id="canvas-container"class="canvas-container d-none">
         <canvas id="canvas" width="720px" height="480px" class="d-none"></canvas>
-        <img onclick="fullScreenOn()" class="fullscreen" src="./img/fullscreen (1).png" alt="">
+        <img id="fullScreenOn" onclick="fullScreenOn()" class="fullscreen" src="./img/fullscreen (1).png" alt="">
+        <img id="fullScreenOff" onclick="exitFullscreen()" class="fullscreen d-none" src="./img/curve-right-arrow.png" alt="">
         <img id="musicOn" onclick="musicOff()" class="sound-on-button" src="./img/left-arrow.svg" alt="">
         <img id="musicOff" onclick="musicOn()" class="sound-on-button d-none" src="./img/right-arrow.svg" alt="">
         <div class="mobile-controll-left">
@@ -47,7 +48,7 @@
         </div>
         <div class="mobile-controll-right">
             <img id="buttonJump" class="mobile-controll-button" src="./img/up-arrow.svg" alt="">
-            <img id="buttonThrow" class="mobile-controll-button" src="./img/right-arrow.svg" alt="">
+            <img id="buttonThrow" class="mobile-controll-button" src="./img/curve-right-arrow.png" alt="">
         </div>
     </div>
     

@@ -57,11 +57,11 @@ class Character extends MoveableObject {
         this.loadImages(this.images_dead);
         this.loadImages(this.images_hurt);
         this.applyGravity();
-        this.animate();
+        this.characterAnimate();
     }
 
-    animate() {          
-        this.charakterMoveAnimation = setInterval(() => {
+    characterAnimate() {          
+        this.charakterMoveAnimationMove = setInterval(() => {
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
             };
@@ -97,6 +97,7 @@ class Character extends MoveableObject {
                 this.audioPlayedDuringHurt = false;  
             }
         }, 100);
+        // this.world.allIntervals.push(this.charakterMoveAnimationMove)
     }
 
     jumpAnimation() {
