@@ -37,6 +37,9 @@ class World {
             this.paused = !this.paused;
             this.draw();
             clearInterval(this.moveableObject.moveLeftInterval);
+            console.log(this.moveableObject.moveLeftInterval);
+            console.log(this.moveableObject);
+            
             music.pause();
         }
     }

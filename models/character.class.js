@@ -43,6 +43,7 @@ class Character extends MoveableObject {
         './img/2_character_pepe/4_hurt/H-41.png',
         './img/2_character_pepe/4_hurt/H-42.png',
         './img/2_character_pepe/4_hurt/H-43.png',
+        './img/2_character_pepe/2_walk/W-21.png',
     ];
     world;
     audio_jump = new Audio ('./audio/jump.mp3');
@@ -50,7 +51,7 @@ class Character extends MoveableObject {
     audio_death = new Audio ('./audio/character_death.mp3');
     
 
-    constructor() {
+    constructor(world) {
         super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.imagesWalking);
         this.loadImages(this.images_jumping);
@@ -58,6 +59,14 @@ class Character extends MoveableObject {
         this.loadImages(this.images_hurt);
         this.applyGravity();
         this.characterAnimate();
+        this.world = world;
+        this.pushSound();
+    }
+
+    pushSound() {
+        sounds.push(this.audio_jump);
+        sounds.push(this.audio_hit);
+        sounds.push(this.audio_death);
     }
 
     characterAnimate() {          
@@ -73,7 +82,9 @@ class Character extends MoveableObject {
             if (this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jumpAnima = true;
                 this.jump();
-                this.audio_jump.play(); 
+                if (sound) {
+                    this.audio_jump.play(); 
+                }                
             }
         },60/1000);
 
@@ -84,7 +95,9 @@ class Character extends MoveableObject {
             } else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);   
                 if (!this.audioPlayedDuringHurt) {
-                    this.audio_hit.play(); 
+                    if (sound) {
+                        this.audio_hit.play(); 
+                    }                    
                     this.audioPlayedDuringHurt = true;
                 }        
             } else if (this.isAboveGround() && this.jumpAnima === true) {
@@ -97,7 +110,6 @@ class Character extends MoveableObject {
                 this.audioPlayedDuringHurt = false;  
             }
         }, 100);
-        // this.world.allIntervals.push(this.charakterMoveAnimationMove)
     }
 
     jumpAnimation() {

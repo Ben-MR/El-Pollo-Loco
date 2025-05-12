@@ -62,7 +62,7 @@ class Endboss extends MoveableObject {
         this.loadImages(this.images_Hurt);
         this.loadImages(this.images_Dead);
         this.loadImages(this.images_Attack);
-        this.animate();
+        this.endBossAnimate();
         this.audio_chicken_angry = new Audio ('./audio/angry-chicken.mp3');
         this.audio_boss_music = new Audio('./audio/music_fast.mp3');
         this.audio_boss_music.volume = 0.5;
@@ -70,7 +70,7 @@ class Endboss extends MoveableObject {
         this.audio_boss_intro.volume = 0.3;
     }
 
-    animate() {
+    endBossAnimate() {
         if (this.endbossAnimation) {
             clearInterval(this.endbossAnimation);
         }
@@ -103,7 +103,9 @@ class Endboss extends MoveableObject {
                 i = 0;                              
             }            
         },150)
+        this.world.allIntervals.push(this.endbossAnimation);    
     }
+
     startMove() {
         if (this.moveInterval) return;     
             this.moveInterval = setInterval(() => {
@@ -118,14 +120,18 @@ class Endboss extends MoveableObject {
         }
     }
 
-    bossIntro() {
-        music.pause(); 
-        this.audio_boss_intro.play();
+    bossIntro() {        
+        if (sound) {
+            this.audio_boss_intro.play();
+            music.pause(); 
+        }        
     }
 
     playSound() {
-        this.audio_chicken_angry.play();
-        this.audio_boss_music.play();               
+        if (sound) {
+            this.audio_chicken_angry.play();
+            this.audio_boss_music.play();    
+        }           
     }
 
     endGame() {

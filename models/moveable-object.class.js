@@ -14,8 +14,9 @@ class MoveableObject extends DrawableObject {
 
     constructor(world) {
         super();
-        this.world = world;
+        this.world = world;   
     }
+
 
     applyGravity(){
         this.gravityIntervall = setInterval(() => {
@@ -86,7 +87,7 @@ class MoveableObject extends DrawableObject {
     moveLeft(speed, time){        
         this.moveLeftInterval = setInterval(() => {
             this.x -= speed;
-        }, time);        
+        }, time);             
     }    
 
     moveRight() {

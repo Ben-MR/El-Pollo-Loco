@@ -20,6 +20,7 @@ class StatusBarCoin extends DrawableObject {
         this.width = 140;
         this.height = 50;
         this.setCoins(0);
+        sounds.push(this.audio_newCoin);
     }
 
     setCoins(coins) {
@@ -47,6 +48,8 @@ class StatusBarCoin extends DrawableObject {
     coinsUp() {
         this.coins++;   
         this.setCoins(this.coins);  
-        this.audio_newCoin.play();   
+        if (sound) {
+            this.audio_newCoin.play();   
+        }       
     }
 }

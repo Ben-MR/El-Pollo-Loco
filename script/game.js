@@ -3,9 +3,13 @@ let world;
 let keyboard = new Keyboard;
 let music = new Audio ('./audio/music.mp3');
 music.volume = 0.2;
+sounds =[];
+sound = true;
+
 
 function init() {
     mobilePlay();
+    canvas = document.getElementById('canvas');
 }
 
 function startGame() {
@@ -13,11 +17,10 @@ function startGame() {
     document.getElementById('gameOverPicture').classList.add('d-none');
     document.getElementById('canvas').classList.remove('d-none');
     document.getElementById('canvas-container').classList.remove('d-none');
-    document.getElementById('gameWonPicture').classList.add('d-none');
-    initLevel();    
-    canvas = document.getElementById('canvas');
+    document.getElementById('gameWonPicture').classList.add('d-none');    
+    initLevel();        
     world = new World (canvas, keyboard);  
-    music.play();
+    music.play();     
 }
 
 document.addEventListener('keydown', event => {
@@ -114,12 +117,14 @@ function musicOn() {
     document.getElementById('musicOn').classList.toggle('d-none');
     document.getElementById('musicOff').classList.toggle('d-none');
     music.play();
+    sound = true;  
 }
 
 function musicOff() {
     document.getElementById('musicOn').classList.toggle('d-none');
     document.getElementById('musicOff').classList.toggle('d-none');
     music.pause();
+    sound = false;    
 }
 
 function fullScreenOn() {
@@ -144,20 +149,24 @@ function enterFullscreen(element) {
     }    
 }
 
-function exitFullscreen () {
+function exitFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
-    }else if (document.webkitExitFullscreen) {
+    } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
     }
+}
+
+document.addEventListener("fullscreenchange", () => {
     const canvas = document.getElementById("canvas");
-    document.getElementById('fullScreenOn').classList.remove('d-none');
-    document.getElementById('fullScreenOff').classList.add('d-none');
-    setTimeout(() => {
+    const isFullscreen = document.fullscreenElement != null;
+    if (!isFullscreen) {
         canvas.style.width = '720px';
         canvas.style.height = '480px';
-    }, 100);
-}
+        document.getElementById('fullScreenOn').classList.remove('d-none');
+        document.getElementById('fullScreenOff').classList.add('d-none');
+    }
+});
 
 
 

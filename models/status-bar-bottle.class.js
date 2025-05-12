@@ -19,6 +19,7 @@ class StatusBarBottle extends DrawableObject {
         this.width = 140;
         this.height = 50;
         this.setBottle(0);
+        sounds.push(this.audio_newBottle);
     }
 
     setBottle(bottles) {
@@ -46,7 +47,10 @@ class StatusBarBottle extends DrawableObject {
     bottlesUp() {
         this.bottles++ ;   
         this.setBottle(this.bottles);   
-        this.audio_newBottle.play();   
+        if (sound) {
+            this.audio_newBottle.play(); 
+        }
+          
     }
 
     bottlesDown() {

@@ -21,12 +21,14 @@ class Chicken extends MoveableObject {
    
 
     constructor(world) {
-        super(world).loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
+        super(world);
+        this.world = world;
+        this.loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.x = 400 + Math.random() * 500;
         this.loadImages(this.imagesWalking);
         this.loadImages(this.imagesDead);
         this.animate();
-    }
+    };
 
     animate() {
         this.chickenAnimation = setInterval(() => {
@@ -36,6 +38,7 @@ class Chicken extends MoveableObject {
             this.playAnimation(this.imagesWalking)
         }, 50);
         this.moveLeft((0.2 + Math.random() * 0.25), 1000/60);   
+        // console.log(this.world.allIntervals);    
     }
 
     chickenHit() {
@@ -44,12 +47,12 @@ class Chicken extends MoveableObject {
 
     deadAnimation() {
         this.playAnimation(this.imagesDead);
-        this.audio_dead.play();
+        if (sound) {
+            this.audio_dead.play();
+        };        
         clearInterval(this.chickenAnimation);
         setInterval(() => {
             this.y += 10;
         }, 50);  
     }
-
-
 } 
