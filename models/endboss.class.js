@@ -125,16 +125,16 @@ class Endboss extends MoveableObject {
 
     playSound() {
         this.audio_chicken_angry.play();
-        this.audio_boss_music.play();
-               
+        this.audio_boss_music.play();               
     }
 
     endGame() {
+        this.audio_boss_music.pause();  
+        this.audio_chicken_angry.pause();
         setTimeout(() => {
             clearInterval(this.endbossAnimation);
             this.stopMove();
-            this.world.gameWon = true;     
-            music.pause();        
+            this.world.gameWon = true;                    
         }, 2000);        
     }
 
