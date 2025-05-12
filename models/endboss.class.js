@@ -124,7 +124,14 @@ class Endboss extends MoveableObject {
         if (sound) {
             this.audio_boss_intro.play();
             music.pause(); 
-        }        
+        }
+        keyboardOn = false;
+        keyboard.RIGHT = false;
+        keyboard.LEFT = false;
+        setTimeout(() => {
+            keyboardOn = true;
+        }, 1500);
+               
     }
 
     playSound() {

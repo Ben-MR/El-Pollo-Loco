@@ -16,6 +16,11 @@ body {
     font-family: 'Rye';
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 h1 {
     font-size: 50px;
     margin: 55px 0 10px 0;
@@ -29,10 +34,35 @@ h1 {
     font-size: 158x;
 }
 
+.start-mobile {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+.start-game-mobile {
+    position: absolute;
+    top: 15px;
+    left:15px;
+    font-size: 20px;
+}
+
+.inprint-mobile {
+    position: absolute;
+    bottom: 15px;
+    right:15px;
+    border: 1px solid black;
+    border-radius: 20px; 
+    font-size: 20px;
+    padding: 5px 10px 5px 10px;
+}
+
 .canvas-container {
     position: relative;
     aspect-ratio: 3 / 2;
 }
+
 
 canvas {
     background-color: black;
@@ -68,7 +98,6 @@ canvas {
     cursor: pointer;
 }
 
-
 .control-container {
     width: 720px;
     display: flex;
@@ -81,6 +110,13 @@ canvas {
 .start-picture {
     width: 720px;
     height: 480px;
+    cursor: pointer;
+    object-fit: contain;
+}
+
+.start-picture-mobile {
+    width: 100%;
+    height: auto;
     cursor: pointer;
     object-fit: contain;
 }
@@ -127,9 +163,27 @@ canvas {
     display: none;
 }
 
-.d-none {
-    display: none;
+.impressum {
+    margin: 30px 0 0 30px ;
 }
+
+.impressum-back {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    left: 20px;
+    top:20px;
+    cursor: pointer;
+}
+
+.legal-notice {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    font-size: 15px;
+}
+
+
 
 @media only screen and (max-width: 760px){
     canvas {
@@ -161,6 +215,24 @@ canvas {
 
     .click-start-container {
         display: none;  
+    }
+
+    .start-mobile {
+    display: block;
+    }
+
+    .start-picture {
+        display: none;
+    }
+
+    .legal-notice {
+        display: none;
+    }
+
+    .impressum-back {
+        margin-bottom: 20px;
+        width: 20px;
+        height: auto;
     }
 }
 
@@ -196,10 +268,32 @@ canvas {
     .click-start-container {
         display: none;  
     }
+
+    .start-mobile {
+    display: block;
+    }
+    
+    .start-picture {
+        display: none;
+    }
+
+    .legal-notice {
+        display: none;
+    }
+
+    .impressum-back {
+        margin-bottom: 20px;
+        width: 20px;
+        height: auto;
+    }
 }
 
 @media screen and (orientation:portrait) {
     .start-picture {
+        display: none;
+    }
+
+    .start-mobile {
         display: none;
     }
 
@@ -238,4 +332,8 @@ canvas {
 
 @media screen and (orientation:landscape) {
    
+}
+
+.d-none {
+    display: none;
 }
