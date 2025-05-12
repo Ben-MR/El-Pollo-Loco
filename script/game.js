@@ -19,7 +19,8 @@ function startGame() {
     document.getElementById('canvas').classList.remove('d-none');
     document.getElementById('canvas-container').classList.remove('d-none');
     document.getElementById('gameWonPicture').classList.add('d-none');   
-    document.getElementById('startMobilePicture').classList.add('d-none');   
+    document.getElementById('startMobilePicture').classList.add('d-none'); 
+    document.getElementById('overlay').classList.add('d-none') 
     initLevel();        
     world = new World (canvas, keyboard);  
     music.play();     
@@ -166,6 +167,10 @@ document.addEventListener("fullscreenchange", () => {
         document.getElementById('fullScreenOff').classList.add('d-none');
     }
 });
+
+function mainMenu() {
+    location.reload();
+}
 
 
 

@@ -14,11 +14,37 @@ body {
     background-image: url('./img/desert-5112222_1920.png');
     background-position: center;
     font-family: 'Rye';
+    margin: 0;
 }
 
 a {
     text-decoration: none;
     color: black;
+}
+
+.overlay {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;     
+    z-index: 1000;
+}
+
+.overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    font-size: 40px;
+    color: #f2c7b3b3;
+}
+
+.overlay-content-text {
+    cursor: pointer;
 }
 
 h1 {

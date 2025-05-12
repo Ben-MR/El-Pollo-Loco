@@ -148,7 +148,12 @@ class Endboss extends MoveableObject {
             clearInterval(this.endbossAnimation);
             this.stopMove();
             this.world.gameWon = true;                    
-        }, 2000);        
+        }, 2000);    
+        setTimeout(() => {
+            document.getElementById('overlay').classList.remove('d-none');
+            music.pause();  
+            audio_boss_music.pause(); 
+        }, 4800);       
     }
 
     chickenHit() {

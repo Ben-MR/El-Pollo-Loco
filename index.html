@@ -28,6 +28,12 @@
     <script src="script/game.js"></script>
 </head>
 <body onload="init()">
+    <div onclick="closeSignOutOverlay(event)" id="overlay" class="overlay d-none" >
+        <div class="overlay-content">
+            <span class="overlay-content-text" onclick="startGame()">Play again</span>
+            <span class="overlay-content-text" onclick="mainMenu()">Main menu</menu></span>
+        </div>
+    </div>
     <h1>El pollo loco</h1>
     <div class="click-start-container">
         <span>Click on image to start game</span>
@@ -38,8 +44,8 @@
         <span onclick="startGame()" class="start-game-mobile">Start Game</span>
         <a href="legal-notice.html"><span class="inprint-mobile">i</span></a>
     </div>
-    <img onclick="startGame()" id="gameOverPicture" class="game-over-picture d-none" src="./img/You won, you lost/Game_Over.png" alt="">
-    <img onclick="startGame()" id="gameWonPicture" class="game-over-picture d-none" src="./img/You won, you lost/You won A.png" alt="">
+    <img id="gameOverPicture" class="game-over-picture d-none" src="./img/You won, you lost/Game_Over.png" alt="">
+    <img id="gameWonPicture" class="game-over-picture d-none" src="./img/You won, you lost/You won A.png" alt="">
 
 
     <div id="canvas-container"class="canvas-container d-none">

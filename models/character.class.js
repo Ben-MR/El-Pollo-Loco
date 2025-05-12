@@ -134,7 +134,11 @@ class Character extends MoveableObject {
         }, 1000);
         setTimeout(() => {
             this.world.gameOver = true;
-        }, 2800);       
+        }, 2800);    
+        setTimeout(() => {
+            document.getElementById('overlay').classList.remove('d-none');
+            music.pause();  
+        }, 4800);     
     }
 
 
