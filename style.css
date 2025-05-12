@@ -123,6 +123,10 @@ canvas {
     border: 1px solid black
 }
 
+.landscape-format {
+    display: none;
+}
+
 .d-none {
     display: none;
 }
@@ -158,11 +162,6 @@ canvas {
     .click-start-container {
         display: none;  
     }
-
-    /* .fullscreen {
-        display: none; 
-    } */
-
 }
 
 @media only screen and (max-height: 480px) {
@@ -197,9 +196,46 @@ canvas {
     .click-start-container {
         display: none;  
     }
+}
 
-    /* .fullscreen {
-        display: none; 
-    } */
+@media screen and (orientation:portrait) {
+    .start-picture {
+        display: none;
+    }
 
+    .mobile-controll-left {
+        display: none;
+    }
+
+    .mobile-controll-right {
+        display: none;
+    }
+
+    .landscape-format {
+        margin-top: 30%;
+        display: block;
+        width: 50%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .landscape-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    .landscape-headline {
+        font-size: 30px;
+        margin: 55px 0 10px 0;
+        letter-spacing: 3px;
+        color: rgb(177, 63, 14);
+        text-shadow: 2px 6px 2px rgb(0, 0, 0, 0.5);
+        text-align: center;
+    }
+}
+
+@media screen and (orientation:landscape) {
+   
 }

@@ -11,6 +11,7 @@ class World {
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.chicken = new Chicken(this);
+        this.smallChicken = new SmallChicken(this);
         this.moveableObject = new MoveableObject(this);
         this.level = level1;
         this.endboss = new Endboss(this);
