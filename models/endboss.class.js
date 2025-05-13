@@ -1,9 +1,9 @@
 class Endboss extends MoveableObject {
     y = 205;
-    x= 2100;
+    x= 6330;
     height = 230;
     width = 230;
-    energy = 3;
+    energy = 5;
     lastHit = 0;
     hurt = false;
     firtContact = false;
@@ -97,7 +97,7 @@ class Endboss extends MoveableObject {
                 }
             }
             i++;
-            if (this.world.character.x > 1660 && !this.firtContact) {
+            if (this.world.character.x > 5960 && !this.firtContact) {
                 this.bossIntro();
                 this.firtContact = true;
                 i = 0;                              
@@ -130,8 +130,7 @@ class Endboss extends MoveableObject {
         keyboard.LEFT = false;
         setTimeout(() => {
             keyboardOn = true;
-        }, 1500);
-               
+        }, 1500);               
     }
 
     playSound() {

@@ -39,8 +39,7 @@ class World {
             this.draw();
             clearInterval(this.moveableObject.moveLeftInterval);
             console.log(this.moveableObject.moveLeftInterval);
-            console.log(this.moveableObject);
-            
+            console.log(this.moveableObject);            
             music.pause();
         }
     }
@@ -78,7 +77,7 @@ class World {
         if(this.keyboard.CTRLL && this.statusBarBottle.bottles > 0) {
             let bottle = new ThrowableObjects (this.character.x +70, this.character.y + 100);
             this.throwableObjects.push(bottle);
-            //this.statusBarBottle.bottlesDown(); 
+            this.statusBarBottle.bottlesDown(); 
         }
     }
 
@@ -175,8 +174,8 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
-        mo.drawFrame2(this.ctx);
+        // mo.drawFrame(this.ctx);
+        // mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
@@ -193,9 +192,5 @@ class World {
         mo.x = mo.x * - 1;
         this.ctx.restore();
     }
-
-
-
-
 }
 

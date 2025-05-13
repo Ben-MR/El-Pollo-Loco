@@ -20,11 +20,11 @@ class Chicken extends MoveableObject {
     audio_dead = new Audio ('./audio/chicken-hit.mp3');
    
 
-    constructor(world) {
+    constructor(x, y, world) {
         super(world);
         this.world = world;
         this.loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
-        this.x = 400 + Math.random() * 500;
+        this.x = x 
         this.loadImages(this.imagesWalking);
         this.loadImages(this.imagesDead);
         this.animate();
@@ -37,8 +37,7 @@ class Chicken extends MoveableObject {
             }else
             this.playAnimation(this.imagesWalking)
         }, 150);
-        this.moveLeft((0.2 + Math.random() * 0.25), 1000/60);   
-        // console.log(this.world.allIntervals);    
+        this.moveLeft((0.2 + Math.random() * 0.25), 1000/60);      
     }
 
     chickenHit() {

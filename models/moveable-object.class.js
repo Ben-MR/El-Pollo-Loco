@@ -8,7 +8,7 @@ class MoveableObject extends DrawableObject {
         right: 0,
         bottom: 0
     };
-    energy = 10;
+    energy = 30;
     lastHit = 0;
     world;
 

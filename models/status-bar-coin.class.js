@@ -30,15 +30,15 @@ class StatusBarCoin extends DrawableObject {
     }
 
     resolveImageIndexCoin() {
-        if (this.coins >= 10) {
+        if (this.coins >= 20) {
             return 5;
-        } else if (this.coins >= 8) {
+        } else if (this.coins >= 15) {
             return 4;
-        } else if (this.coins >= 6) {
+        } else if (this.coins >= 10) {
             return 3;
-        } else if (this.coins >= 4) {
+        } else if (this.coins >= 5) {
             return 2;
-        } else if (this.coins >= 2) {
+        } else if (this.coins >= 1) {
             return 1;
         } else {
             return 0;

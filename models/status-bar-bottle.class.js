@@ -29,11 +29,11 @@ class StatusBarBottle extends DrawableObject {
     }
 
     resolveImageIndexBottle() {
-        if (this.bottles >= 10) {
+        if (this.bottles >= 15) {
             return 5;
-        } else if (this.bottles >= 8) {
+        } else if (this.bottles >= 12) {
             return 4;
-        } else if (this.bottles >= 6) {
+        } else if (this.bottles >= 8) {
             return 3;
         } else if (this.bottles >= 4) {
             return 2;
@@ -49,8 +49,7 @@ class StatusBarBottle extends DrawableObject {
         this.setBottle(this.bottles);   
         if (sound) {
             this.audio_newBottle.play(); 
-        }
-          
+        }          
     }
 
     bottlesDown() {
