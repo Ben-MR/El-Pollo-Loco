@@ -60,10 +60,10 @@ class MoveableObject extends DrawableObject {
     }
    
     isColliding(enemy) {
-        return this.x + this.width > enemy.x &&
-               this.x < enemy.x + enemy.width &&
-               this.y + this.height > enemy.y &&  
-               this.y < enemy.y + enemy.height;
+        return this.x + this.width - this.offset.right > enemy.x + enemy.offset.left &&
+            this.x + this.offset.left < enemy.x + enemy.width - enemy.offset.right &&
+            this.y + this.height - this.offset.bottom > enemy.y + enemy.offset.top &&
+            this.y + this.offset.top < enemy.y + enemy.height - enemy.offset.bottom;
     }
 
     hit() {
@@ -88,7 +88,8 @@ class MoveableObject extends DrawableObject {
     moveLeft(speed, time){        
         this.moveLeftInterval = setInterval(() => {
             this.x -= speed;
-        }, time);             
+        }, time);  
+        console.log(this.world.allIntervals);                   
     }    
 
     moveRight() {

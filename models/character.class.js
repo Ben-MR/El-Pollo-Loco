@@ -91,8 +91,6 @@ class Character extends MoveableObject {
         this.world = world;
     }
 
-
-
     characterAnimate() {          
         this.timerFunction();
         this.charakterMoveAnimationMove = setInterval(() => {
@@ -121,7 +119,9 @@ class Character extends MoveableObject {
 
         this.charakterAnimation = setInterval(() => {
             if (this.isDead()) {
-                this.audio_death.play();    
+                if (sound) {
+                    this.audio_death.play();
+                }                    
                 this.characterDead();
             } else if (this.isHurt()) {
                 this.playAnimation(this.images_hurt);   
@@ -137,7 +137,9 @@ class Character extends MoveableObject {
             } else {
                 if (this.isIdle) {
                     this.playAnimation(this.images_idle);
-                    this.audio_snoring.play();
+                    if (sound) {
+                        this.audio_snoring.play();
+                    }                    
                 } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.imagesWalking);
                 }
@@ -155,7 +157,6 @@ class Character extends MoveableObject {
             this.isIdle = true;
         }, 5000);
     }
-
 
     jumpAnimation() {
         if(this.jumpFrame < (this.images_jumping.length - 1)){
@@ -184,12 +185,13 @@ class Character extends MoveableObject {
         setTimeout(() => {
             this.world.gameOver = true;
             music.pause();  
-            this.audio_gameOver.play();
+            if (sound) {
+                this.audio_gameOver.play();
+            }            
         }, 2800);    
         setTimeout(() => {
             document.getElementById('overlay').classList.remove('d-none');            
         }, 4800); 
-    }
-    
+    }    
 
 }

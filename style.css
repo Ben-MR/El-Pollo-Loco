@@ -13,6 +13,8 @@ body {
     align-items: center;
     background-image: url('./img/desert-5112222_1920.png');
     background-position: center;
+    background-repeat: no-repeat;
+    
     font-family: 'Rye';
     margin: 0;
 }
@@ -371,6 +373,13 @@ canvas {
 
 @media screen and (orientation:landscape) {
    
+}
+
+@media (min-aspect-ratio: 2/1) {
+    body {
+        background-size: cover;
+    }
+    
 }
 
 .d-none {
