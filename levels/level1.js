@@ -28,6 +28,8 @@ level1 = new Level(
         new Cloud('./img/5_background/layers/4_clouds/1.png', 2350, 20),
         new Cloud('./img/5_background/layers/4_clouds/1.png', 3050, 20),
         new Cloud('./img/5_background/layers/4_clouds/1.png', 3850, 20),
+        new Cloud('./img/5_background/layers/4_clouds/1.png', 4650, 20),
+        new Cloud('./img/5_background/layers/4_clouds/1.png', 5450, 20),
     ],
     [
         new BackgroundObject('./img/5_background/layers/air.png', 0, 0),

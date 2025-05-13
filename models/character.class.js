@@ -75,6 +75,7 @@ class Character extends MoveableObject {
     audio_death = new Audio ('./audio/character_death.mp3');
     audio_gameOver = new Audio ('./audio/game-over.mp3');
 
+
     constructor(world) {
         super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.imagesWalking);
@@ -82,6 +83,8 @@ class Character extends MoveableObject {
         this.loadImages(this.images_dead);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_idle);
+        this.audio_snoring = new Audio ('./audio/snoring.mp3');
+        this.audio_snoring.loop = true;
         this.applyGravity();
         this.characterAnimate();
         this.timerFunction();
@@ -134,21 +137,20 @@ class Character extends MoveableObject {
             } else {
                 if (this.isIdle) {
                     this.playAnimation(this.images_idle);
+                    this.audio_snoring.play();
                 } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                     this.playAnimation(this.imagesWalking);
                 }
-                this.audioPlayedDuringHurt = false;
-}
+                this.audioPlayedDuringHurt = false;}
         }, 100);
     }
 
     timerFunction() {
+        this.audio_snoring.pause();
         if (this.idleTimeout) {
             clearTimeout(this.idleTimeout);
         }
-
         this.isIdle = false;
-
         this.idleTimeout = setTimeout(() => {
             this.isIdle = true;
         }, 5000);
