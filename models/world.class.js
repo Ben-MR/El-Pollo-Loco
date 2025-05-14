@@ -29,11 +29,16 @@ class World {
         this.run();
     }
 
+    /**
+     * Associates the current world instance with the character.
+     */
     setWorld() {
         this.character.world = this; // Dadurch kann die Character-Klasse auf Keyboard zugreifen
     }
-
-
+    
+    /**
+     * Starts the main game loop.
+     */
     run() {
         this.runInterval = setInterval(() => {
             this.checkCollisions();            
@@ -47,6 +52,11 @@ class World {
         this.allIntervals.push(this.runInterval);
     }
 
+    /**
+     * Checks if the character collides with an enemy. It also checks if the collision 
+     * is from above, so the enemy gets hit or from any other direction, so the 
+     * character gets hit. 
+     */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isCollidingJump(enemy)) {
@@ -62,6 +72,10 @@ class World {
         });
     }
 
+    /**
+     * Throws an object with keypress
+     * With bottleThrown only one onject can be thrown with a keypress. 
+     */
     checkThrowObjects() {
     if (this.keyboard.CTRLL && !this.bottleThrown && this.statusBarBottle.bottles > 0) {
         this.bottleThrown = true; 
@@ -74,6 +88,10 @@ class World {
     }
 }
 
+    /**
+     * Check if the thrown objects hits an enemy.
+     * If an enemy is hit, bottle and enemy are removed from level with an animation.
+     */    
     checkBottleCollisions() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
@@ -87,6 +105,10 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character collides with an coin, removes the coin from display 
+     * and raises the coin status-bar.
+     */
     collectCoins() {
         this.level.collectablesCoins.forEach((collectablesCoins) => {
             if(this.character.isCollidingComplete(collectablesCoins)) {
@@ -96,6 +118,10 @@ class World {
         });
     }
 
+    /**
+     * Checks if the character collides with a bottle, removes the bottle from display 
+     * and raises the bottle status-bar.
+     */
     collectBottles() {
         this.level.collectablesBottles.forEach((collectablesBottles) => {
             if(this.character.isCollidingComplete(collectablesBottles)) {
@@ -105,6 +131,10 @@ class World {
         });
     }
 
+    /**
+     * pauses the game and shows game over screen
+     * 
+     */
     gameOverFunction() {
         if (this.gameOver) {
             paused = !paused;
@@ -113,14 +143,11 @@ class World {
         }
     }
 
-    gameOverFunction() {
-        if (this.gameOver) {
-            paused = paused;
-            this.gameOver = false;
-            document.getElementById('gameOverPicture').classList.remove('d-none');
-        }
-    }
-
+    /**
+     * pauses the game and shows game won screen
+     * 
+     */
+    
     gameWonFunction() {
         if (this.gameWon) {
             this.paused = !this.paused;
@@ -129,6 +156,16 @@ class World {
         }
     }
 
+    /**
+    * * Renders all visual game elements onto the canvas.
+    *
+    * This method clears the canvas, translates the view based on the camera position,
+    * and draws all background objects, UI elements, the character, enemies, collectables,
+    * and throwable objects in the correct order. It uses `requestAnimationFrame` to
+    * continuously call itself for smooth, asynchronous rendering — only if the game is not paused.
+    *
+ * The translation logic ensures that HUD elements remain fixed while the world scrolls.
+     */
     draw() {
         if(!paused) {
             this.ctx.clearRect(0, 0, canvas.width, canvas.height);            
@@ -156,12 +193,22 @@ class World {
         }
     }
 
+    /**
+     * Adds the obejct in the level
+     * 
+     * @param {img} objects - ex. character, enemys, background
+     */
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);
        });
     }
 
+    /**
+     * Draws a single movable object (mo) onto the canvas, handling its direction.
+     * 
+     * @param {MovableObject} mo - The movable object to be drawn on the canvas.
+     */
     addToMap(mo) {
         if(mo.otherDirection) {
             this.flipImage(mo);
@@ -174,6 +221,11 @@ class World {
         }
     }
 
+    /**
+     * Flips the character image when walking in other direction
+     * 
+     * @param {img} mo - character image
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -181,6 +233,11 @@ class World {
         mo.x = mo.x * - 1;
     }
 
+    /**
+     * Flips the character image back when walking in other direction
+     * 
+     * @param {img} mo - character image
+     */
     flipImageBack(mo) {
         mo.x = mo.x * - 1;
         this.ctx.restore();

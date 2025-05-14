@@ -102,6 +102,13 @@ class Character extends MoveableObject {
         intervals.push(this.charakterAnimation);
     }
 
+    /**
+     * Handles the main character movement logic for each frame.
+     *
+     * Checks input from the keyboard and calls the appropriate movement functions
+     * (move right, move left, or jump). Also updates the
+     * horizontal camera offset (`camera_x`) to follow the character
+     */
     moveCharacter() {
         if (this.canMoveRight()) {
             this.characterMoveRight();
@@ -115,10 +122,18 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Checks whether the character is allowed to move to the right.
+     */
     canMoveRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
     }
 
+    /**
+     * Moves the character to the right and plays the walking sound-effect.
+     * 
+     * Also sets the character state to active (not idle) and triggers a movement timer.
+     */
     characterMoveRight() {
         super.moveRight();
         if (sound && !this.isAboveGround()) {
@@ -128,10 +143,18 @@ class Character extends MoveableObject {
         this.timerFunction();
     }
 
+    /**
+     * Checks whether the character is allowed to move to the left.
+     */
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > 120;
     }
 
+     /**
+     * Moves the character to the left and plays the walking sound-effect.
+     * 
+     * Also sets the character state to active (not idle) and triggers a movement timer.
+     */
     characterMoveLeft() {
         this.x -= this.speed;   
         if (sound && !this.isAboveGround()) {
@@ -142,10 +165,19 @@ class Character extends MoveableObject {
         this.timerFunction();
     }
 
+    /**
+     * Checks whether the character is allowed to jump.
+     */
     canJump() {
         return this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround();
     }
 
+    /**
+     * Makes the character jump and plays jump sound if enabled.
+     *
+     * Also sets the jump animation flag, marks the character as active,
+     * and triggers a movement timer.
+     */
     characterJump() {
         this.jumpAnima = true;
         this.jump();
@@ -156,6 +188,15 @@ class Character extends MoveableObject {
         }   
     }
 
+    /**
+     * Determines and plays the correct animation based on the character's current state.
+     *
+     * Prioritizes the following states in order:
+     * 1. Dead
+     * 2. Hurt
+     * 3. Jumping
+     * 4. Idle or Walking
+     */
     moveCharacterAnimation () {
         if (this.isDead()) {
             this.characterDied ();
@@ -168,6 +209,11 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Plays the death animation and sound effect.
+     *
+     * This function is triggered when the character has died.
+     */
     characterDied () {
         if (sound) {
             this.audio_death.play();
@@ -175,6 +221,11 @@ class Character extends MoveableObject {
         this.characterDead();
     }
 
+    /**
+     * Plays the hurt animation and associated sound (only once per hurt event).
+     *
+     * Prevents replaying the hurt sound until the character recovers.
+     */
     characterIsHurt() {
         this.playAnimation(this.images_hurt);   
         if (!this.audioPlayedDuringHurt) {
@@ -185,15 +236,26 @@ class Character extends MoveableObject {
         }    
     }
 
+    /**
+     * Checks if the character is currently in a jump animation while in the air.
+     */
     onJump() {
         return this.isAboveGround() && this.jumpAnima === true
     }
 
+    /**
+     * Plays the jump animation and resets hurt sound flag.
+     */
     characterOnJump() {
         this.jumpAnimation();
         this.audioPlayedDuringHurt = false; 
     }
 
+    /**
+     * Plays the idle or walking animation based on movement state.
+     *
+     * Also plays a snoring sound if the character is idle and the game is paused.
+     */ 
     characterIsIdle() {
         if (this.isIdle) {
             this.playAnimation(this.images_idle);
@@ -206,6 +268,11 @@ class Character extends MoveableObject {
         this.audioPlayedDuringHurt = false;
     }
 
+    /**
+     * Starts or resets a timer that will set the character to idle after 10 seconds of inactivity.
+     *
+     * Also pauses the snoring sound when activity resumes.
+     */
     timerFunction() {
         this.audio_snoring.pause();
         if (this.idleTimeout) {
@@ -217,6 +284,11 @@ class Character extends MoveableObject {
         }, 10000);
     }
 
+    /**
+     * Animates the character jump by cycling through jump image frames.
+     *
+     * Resets the jump animation state once the last frame is reached.
+     */
     jumpAnimation() {
         if(this.jumpFrame < (this.images_jumping.length - 1)){
             let image = this.images_jumping[this.jumpFrame];
@@ -228,6 +300,10 @@ class Character extends MoveableObject {
         }
     }
 
+    /**
+     * Handles the character's death by playing the death animation,
+     * stopping all game intervals, and triggering the end screen sequence.
+     */
     characterDead() {
         this.playAnimation(this.images_dead); 
         endGameIntervals();
@@ -235,6 +311,13 @@ class Character extends MoveableObject {
         this.endScreen();    
     }  
 
+    /**
+     * Initiates the end screen sequence after the character dies.
+     *
+     * - Waits 1 second, then begins moving the character downward.
+     * - Stops all game intervals again for safety.
+     * - Shows the game over overlay after a short delay.
+     */
     endScreen() {
         setTimeout(() => {
             setInterval(() => {
@@ -248,11 +331,20 @@ class Character extends MoveableObject {
         }, 4800); 
     }    
 
+    /**
+     * Stops the game logic and plays the game over sound after a delay.
+     *
+     * - Marks the game as over.
+     * - Pauses background and boss music and sets to zero.
+     * - Plays the game over sound if sound is enabled.
+     */
     stopGameDeath() {
         setTimeout(() => {
             this.world.gameOver = true;
             music.pause();  
+            music.currentTime = 0;
             audio_boss_music.pause(); 
+            audio_boss_music.currentTime = 0;
             audio_chicken_angry.pause(); 
             if (sound) {
                 this.audio_gameOver.play();

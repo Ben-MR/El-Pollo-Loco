@@ -425,14 +425,12 @@ canvas {
     .start-picture-mobile {
         height: inherit;
     }
-
 }
 
 @media (min-aspect-ratio: 2/1) {
     body {
         background-size: cover;
-    }
-    
+    }   
 }
 
 .d-none {

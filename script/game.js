@@ -15,11 +15,23 @@ paused = false;
 intervals = [];
 
 
+/**
+ * Initializes onload the canvas and the even-listener for mobile play.
+ * 
+ */
 function init() {
     mobilePlay();
     canvas = document.getElementById('canvas');
 }
 
+/**
+ * Starts the game on button click. 
+ * Loads the canvas and removes the start-image.
+ * Removes the gameover or gamewon picture after a new start of the game.
+ * Initializes the world class and the first level and loads the objects in level1 class.
+ * Starts the music. 
+ * 
+ */
 function startGame() {
     document.getElementById('startPicture').classList.add('d-none');
     document.getElementById('gameOverPicture').classList.add('d-none');
@@ -33,6 +45,10 @@ function startGame() {
     music.play();        
 }
 
+/**
+ * Listens for keyboard keydown events and updates the custom keyboard state.
+ * 
+ */
 document.addEventListener('keydown', event => {
     if (keyboardOn) {
         if (event.code === 'Space') {
@@ -59,7 +75,10 @@ document.addEventListener('keydown', event => {
     }
   }) 
 
- document.addEventListener('keyup', event => {
+ /**
+  * Listens for keyboard keyup events and resets the custom keyboard state.
+  */
+  document.addEventListener('keyup', event => {
     if (event.code === 'Space') {
       keyboard.SPACE = false;
     }
@@ -83,7 +102,10 @@ document.addEventListener('keydown', event => {
     }
   }) 
 
-function mobilePlay() {
+/**
+ * Listens to the controll-buttons in mobile play and updates or resets the custom keyboard state.
+ */
+  function mobilePlay() {
     if (keyboardOn) {
         document.getElementById('buttonLeft').addEventListener('touchstart', (e) => {
             e.preventDefault();
@@ -120,6 +142,9 @@ function mobilePlay() {
     }
 }
 
+/**
+ * Turns music and sound-effects on and changes the button.
+ */
 function musicOn() {
     document.getElementById('musicOn').classList.toggle('d-none');
     document.getElementById('musicOff').classList.toggle('d-none');
@@ -127,6 +152,9 @@ function musicOn() {
     sound = true;  
 }
 
+/**
+ * Turns music and sound-effects off and changes the button.
+ */
 function musicOff() {
     document.getElementById('musicOn').classList.toggle('d-none');
     document.getElementById('musicOff').classList.toggle('d-none');
@@ -134,6 +162,11 @@ function musicOff() {
     sound = false;    
 }
 
+/**
+ * Enables fullscreen mode for the game canvas and adjusts its dimensions.
+ *
+ * This function triggers fullscreen mode on the `#canvas-container` element.
+ **/
 function fullScreenOn() {
     let fullscreen = document.getElementById('canvas-container');
     enterFullscreen(fullscreen);
@@ -146,6 +179,12 @@ function fullScreenOn() {
     document.getElementById('fullScreenOff').classList.remove('d-none');
 }
 
+/**
+ * Requests fullscreen mode for a specific HTML element, with cross-browser support.
+ *
+ * Tries to use the standard `requestFullscreen()` method,
+ * and falls back to vendor-prefixed versions for older browsers (IE, Safari).
+ */
 function enterFullscreen(element) {
     if(element.requestFullscreen) {
        element.requestFullscreen() 
@@ -156,6 +195,12 @@ function enterFullscreen(element) {
     }    
 }
 
+/**
+ * Exits fullscreen mode, with cross-browser support.
+ *
+ * Uses the standard `exitFullscreen()` method when available,
+ * and falls back to the WebKit-specific version for Safari.
+ */
 function exitFullscreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -164,6 +209,11 @@ function exitFullscreen() {
     }
 }
 
+/**
+ * Handles changes to the fullscreen state of the document.
+ *
+ * This event listener is triggered whenever the browser enters or exits fullscreen mode.
+ */
 document.addEventListener("fullscreenchange", () => {
     const canvas = document.getElementById("canvas");
     const isFullscreen = document.fullscreenElement != null;
@@ -175,21 +225,22 @@ document.addEventListener("fullscreenchange", () => {
     }
 });
 
+/**
+ * Reloads the site when the main menu button is clicked after a game. 
+ */
 function mainMenu() {
     location.reload();
 }
 
+/**
+ * End all intervals at the end of the game. The intervals were osuhed in intervals-array.
+ */
 function endGameIntervals() {
     intervals.forEach(id => {
         clearInterval(id);
     });
 }
 
-document.addEventListener('keypress', event => {
-    if (event.code === 'KeyP') {
-     
-    }
-});
     
 
 
