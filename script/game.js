@@ -3,6 +3,11 @@ let world;
 let keyboard = new Keyboard;
 let music = new Audio ('./audio/music.mp3');
 music.volume = 0.2;
+music.loop;
+let audio_boss_music = new Audio('./audio/music_fast.mp3');
+audio_boss_music.volume = 0.5;
+let audio_chicken_angry = new Audio ('./audio/angry-chicken.mp3');
+audio_chicken_angry.loop
 sounds =[];
 sound = true;
 keyboardOn = true;
@@ -181,15 +186,7 @@ function endGameIntervals() {
 
 document.addEventListener('keypress', event => {
     if (event.code === 'KeyP') {
-      if (!paused) {
-        paused = true;
-        // intervals.forEach(id => {
-        //     clearInterval(id);
-        // });
-        world.draw();       
-      } else if (paused)
-        paused = false;
-        world.draw();        
+     
     }
 });
     

@@ -184,18 +184,24 @@ class Character extends MoveableObject {
         setTimeout(() => {
             setInterval(() => {
                 this.y += 10;                
-            }, 50);             
+            }, 50);     
+            endGameIntervals();        
         }, 1000);
-        setTimeout(() => {
-            this.world.gameOver = true;
-            music.pause();  
-            if (sound) {
-                this.audio_gameOver.play();
-            }            
-        }, 2800);    
+        this.stopGameDeath();
         setTimeout(() => {
             document.getElementById('overlay').classList.remove('d-none');            
         }, 4800); 
     }    
 
+    stopGameDeath() {
+        setTimeout(() => {
+            this.world.gameOver = true;
+            music.pause();  
+            audio_boss_music.pause(); 
+            audio_chicken_angry.pause(); 
+            if (sound) {
+                this.audio_gameOver.play();
+            }            
+        }, 2800);   
+    }
 }

@@ -49,8 +49,7 @@ class Endboss extends MoveableObject {
         './img/4_enemie_boss_chicken/3_attack/G18.png',
         './img/4_enemie_boss_chicken/3_attack/G19.png',
         './img/4_enemie_boss_chicken/3_attack/G20.png',
-    ];
-    
+    ];   
 
     constructor(world) {
         super(world); 
@@ -63,9 +62,6 @@ class Endboss extends MoveableObject {
         this.loadImages(this.images_Dead);
         this.loadImages(this.images_Attack);
         this.endBossAnimate();
-        this.audio_chicken_angry = new Audio ('./audio/angry-chicken.mp3');
-        this.audio_boss_music = new Audio('./audio/music_fast.mp3');
-        this.audio_boss_music.volume = 0.5;
         this.audio_boss_intro = new Audio('./audio/boss-intro2.mp3');
         this.audio_boss_intro.volume = 0.3;
     }
@@ -79,7 +75,7 @@ class Endboss extends MoveableObject {
             if (i < 9) {
                 this.playAnimation(this.images_Alert);
             }else {
-                if (this.energy > 0 && this.firtContact && !this.hurt && (this.x - this.world.character.x < 170)){
+                if (this.energy > 0 && this.firtContact && !this.hurt && (this.x - this.world.character.x < 100)){
                     this.playAnimation(this.images_Attack);     
                     this.stopMove();               
                 }else if (this.energy > 0  && !this.hurt && this.firtContact) {
@@ -135,25 +131,29 @@ class Endboss extends MoveableObject {
 
     playSound() {
         if (sound) {
-            this.audio_chicken_angry.play();
-            this.audio_boss_music.play();    
+            audio_chicken_angry.play();
+            audio_boss_music.play();    
         }           
     }
 
     endGame() {
-        this.audio_boss_music.pause();  
-        this.audio_chicken_angry.pause();
+        audio_boss_music.pause();  
+        music.pause(); 
+        audio_chicken_angry.pause();
+        this.stopGameBossDeath();
+        setTimeout(() => {
+            document.getElementById('overlay').classList.remove('d-none');
+            audio_boss_music.pause(); 
+        }, 4800);       
+    }
+
+    stopGameBossDeath() {
         setTimeout(() => {
             clearInterval(this.endbossAnimation);
             this.stopMove();
             this.world.gameWon = true;    
             endGameIntervals();                
-        }, 2000);    
-        setTimeout(() => {
-            document.getElementById('overlay').classList.remove('d-none');
-            music.pause();  
-            this.audio_boss_music.pause(); 
-        }, 4800);       
+        }, 2000);   
     }
 
     chickenHit() {
