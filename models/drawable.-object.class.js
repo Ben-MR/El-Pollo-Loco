@@ -6,6 +6,10 @@ class DrawableObject {
     height = 150;
     width = 100;
 
+    constructor() {
+        world = this.world;
+    }
+
 
     loadImage(path) {
         this.img = new Image(); //Image ist bereits durch JS definiert. Ist das gleiche wie: this.img = document.getElementById('image') <img id="image"  scr>

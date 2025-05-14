@@ -103,7 +103,7 @@ class Endboss extends MoveableObject {
                 i = 0;                              
             }            
         },150)
-        this.world.allIntervals.push(this.endbossAnimation);    
+        intervals.push(this.endbossAnimation);    
     }
 
     startMove() {
@@ -146,20 +146,20 @@ class Endboss extends MoveableObject {
         setTimeout(() => {
             clearInterval(this.endbossAnimation);
             this.stopMove();
-            this.world.gameWon = true;                    
+            this.world.gameWon = true;    
+            endGameIntervals();                
         }, 2000);    
         setTimeout(() => {
             document.getElementById('overlay').classList.remove('d-none');
             music.pause();  
-            audio_boss_music.pause(); 
+            this.audio_boss_music.pause(); 
         }, 4800);       
     }
 
     chickenHit() {
         if (this.isHurt()) return;
         this.hurt = true;
-        this.energy--;
-        console.log(this.energy);    
+        this.energy--;  
         if (this.energy < 0) {
             this.energy = 0;
         }else {

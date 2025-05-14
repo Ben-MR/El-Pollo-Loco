@@ -10,7 +10,6 @@ class CollectableObjectsBottles extends MoveableObject{
     }
     constructor(imagePath, x){
         super().loadImage(imagePath)
-        this.x = x;
-        
+        this.x = x;        
     }
 } 

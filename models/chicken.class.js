@@ -2,6 +2,7 @@ class Chicken extends MoveableObject {
     y = 369;
     height = 60;
     width = 60;
+    chickenAnimation;
     offset = {
         top: 5,
         left: 2,
@@ -18,13 +19,13 @@ class Chicken extends MoveableObject {
         './img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];    
     audio_dead = new Audio ('./audio/chicken-hit.mp3');
+    
    
 
-    constructor(x, y, world) {
-        super(world);
-        this.world = world;
+    constructor(x, y) {
+        super();
         this.loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
-        this.x = x 
+        this.x = x; 
         this.loadImages(this.imagesWalking);
         this.loadImages(this.imagesDead);
         this.animate();
@@ -38,6 +39,7 @@ class Chicken extends MoveableObject {
             this.playAnimation(this.imagesWalking)
         }, 150);
         this.moveLeft((0.2 + Math.random() * 0.25), 1000/60);      
+        intervals.push(this.chickenAnimation);
     }
 
     chickenHit() {

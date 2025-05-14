@@ -65,7 +65,9 @@ class ThrowableObjects extends MoveableObject{
         clearInterval(this.moveInterval);
         clearInterval(this.gravityIntervall);
         this.animateBottleThrow();   
-        this.audio_enemyHit.play();      
+        if (sound) {
+            this.audio_enemyHit.play();  
+        }            
     }
 
     removeBottle() {

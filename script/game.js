@@ -6,7 +6,8 @@ music.volume = 0.2;
 sounds =[];
 sound = true;
 keyboardOn = true;
-
+paused = false; 
+intervals = [];
 
 function init() {
     mobilePlay();
@@ -23,7 +24,7 @@ function startGame() {
     document.getElementById('overlay').classList.add('d-none') 
     initLevel();        
     world = new World (canvas, keyboard);  
-    music.play();     
+    music.play();        
 }
 
 document.addEventListener('keydown', event => {
@@ -172,5 +173,25 @@ function mainMenu() {
     location.reload();
 }
 
+function endGameIntervals() {
+    intervals.forEach(id => {
+        clearInterval(id);
+    });
+}
+
+document.addEventListener('keypress', event => {
+    if (event.code === 'KeyP') {
+      if (!paused) {
+        paused = true;
+        // intervals.forEach(id => {
+        //     clearInterval(id);
+        // });
+        world.draw();       
+      } else if (paused)
+        paused = false;
+        world.draw();        
+    }
+});
+    
 
 

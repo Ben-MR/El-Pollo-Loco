@@ -8,13 +8,14 @@ class MoveableObject extends DrawableObject {
         right: 0,
         bottom: 0
     };
-    energy = 30;
+    energy = 5;
     lastHit = 0;
-    world;
+    moveLeftInterval;
+    gravityIntervall;
 
     constructor(world) {
         super();
-        this.world = world;   
+        this.world = world;          
     }
 
 
@@ -25,7 +26,7 @@ class MoveableObject extends DrawableObject {
             this.speedY -= this.acceleration;
             }
         }, 1000/25 );     
- 
+        intervals.push(this.gravityIntervall);
     }
 
     isAboveGround() {        
@@ -48,8 +49,8 @@ class MoveableObject extends DrawableObject {
     isCollidingJump(enemy) {
         const characterBottom = this.y + this.height;
         const enemyTop = enemy.y;    
-        const horizontalBuffer = 30; 
-        const verticalBuffer = 30;    
+        const horizontalBuffer = 20; 
+        const verticalBuffer = 10;    
         const horizontalOverlap =
             (this.x + this.width) > (enemy.x - horizontalBuffer) &&
             this.x < (enemy.x + enemy.width + horizontalBuffer);    
@@ -67,7 +68,7 @@ class MoveableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 5;   
+        this.energy -= 1;   
         if (this.energy < 0) {
             this.energy = 0;
         }else {
@@ -88,8 +89,8 @@ class MoveableObject extends DrawableObject {
     moveLeft(speed, time){        
         this.moveLeftInterval = setInterval(() => {
             this.x -= speed;
-        }, time);  
-        console.log(this.world.allIntervals);                   
+        }, time);    
+        intervals.push(this.moveLeftInterval);
     }    
 
     moveRight() {
@@ -107,4 +108,5 @@ class MoveableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImage++;
     }
+
 }

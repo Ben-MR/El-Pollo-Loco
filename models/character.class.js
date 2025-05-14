@@ -70,6 +70,8 @@ class Character extends MoveableObject {
         './img/2_character_pepe/1_idle/long_idle/I-20.png',
     ]
     world;
+    charakterMoveAnimationMove;
+    charakterAnimation;
     audio_jump = new Audio ('./audio/jump.mp3');
     audio_hit = new Audio ('./audio/character_hit2.mp3');
     audio_death = new Audio ('./audio/character_death.mp3');
@@ -77,7 +79,7 @@ class Character extends MoveableObject {
 
 
     constructor(world) {
-        super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
+        super(world).loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.imagesWalking);
         this.loadImages(this.images_jumping);
         this.loadImages(this.images_dead);
@@ -116,6 +118,7 @@ class Character extends MoveableObject {
                 }                
             }
         },60/1000);
+        intervals.push(this.charakterMoveAnimationMove);
 
         this.charakterAnimation = setInterval(() => {
             if (this.isDead()) {
@@ -137,7 +140,7 @@ class Character extends MoveableObject {
             } else {
                 if (this.isIdle) {
                     this.playAnimation(this.images_idle);
-                    if (sound) {
+                    if (sound && paused) {
                         this.audio_snoring.play();
                     }                    
                 } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -145,6 +148,7 @@ class Character extends MoveableObject {
                 }
                 this.audioPlayedDuringHurt = false;}
         }, 100);
+        intervals.push(this.charakterAnimation);
     }
 
     timerFunction() {
@@ -155,7 +159,7 @@ class Character extends MoveableObject {
         this.isIdle = false;
         this.idleTimeout = setTimeout(() => {
             this.isIdle = true;
-        }, 5000);
+        }, 10000);
     }
 
     jumpAnimation() {
@@ -171,8 +175,8 @@ class Character extends MoveableObject {
 
     characterDead() {
         this.playAnimation(this.images_dead); 
-        clearInterval(this.charakterAnimation);
-        clearInterval(this.charakterMoveAnimation);
+        endGameIntervals();
+        paused = false;
         this.endScreen();    
     }  
 

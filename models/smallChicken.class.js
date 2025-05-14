@@ -2,6 +2,7 @@ class SmallChicken extends MoveableObject {
     y = 369;
     height = 50;
     width = 50;
+    smallChickenAnimation;
     offset = {
         top: 5,
         left: 2,
@@ -31,13 +32,14 @@ class SmallChicken extends MoveableObject {
     };
 
     animate() {
-        this.chickenAnimation = setInterval(() => {
+        this.smallChickenAnimation = setInterval(() => {
             if(this.dead) {
                 this.deadAnimation();
             }else
             this.playAnimation(this.imagesWalking)
         }, 150);
         this.moveLeft((0.4 + Math.random() * 0.25), 1000/60);     
+        intervals.push(this.smallChickenAnimation);
     }
 
     chickenHit() {
@@ -49,7 +51,7 @@ class SmallChicken extends MoveableObject {
         if (sound) {
             this.audio_dead.play();
         };        
-        clearInterval(this.chickenAnimation);
+        clearInterval(this.smallChickenAnimation);
         setInterval(() => {
             this.y += 10;
         }, 50);  

@@ -1,5 +1,5 @@
 class World {
-    paused = false;  
+     
     gameOver = false;
     gameWon = false;
     canvas;
@@ -7,6 +7,7 @@ class World {
     keyboard;
     camera_x = 0;
     allIntervals = [];
+    bottleThrown = true;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -26,23 +27,12 @@ class World {
         this.draw();
         this.setWorld();
         this.run();
-        this.pauseGame();
     }
 
     setWorld() {
         this.character.world = this; // Dadurch kann die Character-Klasse auf Keyboard zugreifen
     }
 
-    pauseGame() {
-        if(this.keyboard.P) {
-            this.paused = !this.paused;
-            this.draw();
-            clearInterval(this.moveableObject.moveLeftInterval);
-            console.log(this.moveableObject.moveLeftInterval);
-            console.log(this.moveableObject);            
-            music.pause();
-        }
-    }
 
     run() {
         this.runInterval = setInterval(() => {
@@ -51,10 +41,9 @@ class World {
             this.checkBottleCollisions();
             this.collectCoins();
             this.collectBottles();
-            this.pauseGame();
             this.gameOverFunction();
             this.gameWonFunction();
-        }, 200);
+        }, 60/1000);
         this.allIntervals.push(this.runInterval);
     }
 
@@ -62,11 +51,11 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isCollidingJump(enemy)) {
                 enemy.chickenHit();
-                this.character.speedY = 10; 
+                this.character.speedY = 2; 
             } else if (this.character.isColliding(enemy)) {
                 if (!this.character.isCollidingJump(enemy) && !this.character.isHurt()) {
                     this.character.hit();
-                    this.statusBar.percentage = this.statusBar.percentage - 5;
+                    this.statusBar.percentage = this.statusBar.percentage - 1;
                     this.statusBar.setPercentage(this.statusBar.percentage);                 
                 }
             }
@@ -74,10 +63,16 @@ class World {
     }
 
     checkThrowObjects() {
-        if(this.keyboard.CTRLL && this.statusBarBottle.bottles > 0) {
-            let bottle = new ThrowableObjects (this.character.x +70, this.character.y + 100);
-            this.throwableObjects.push(bottle);
-            this.statusBarBottle.bottlesDown(); 
+        if (this.bottleThrown) {
+            if(this.keyboard.CTRLL && this.statusBarBottle.bottles > 0) {
+                this.bottleThrown = false;
+                let bottle = new ThrowableObjects (this.character.x +70, this.character.y + 100);
+                this.throwableObjects.push(bottle);
+                this.statusBarBottle.bottlesDown(); 
+                setTimeout(() => {
+                    this.bottleThrown = true;
+                }, 200);
+            }
         }
     }
 
@@ -114,7 +109,7 @@ class World {
 
     gameOverFunction() {
         if (this.gameOver) {
-            this.paused = !this.paused;
+            paused = !paused;
             this.gameOver = false;
             document.getElementById('gameOverPicture').classList.remove('d-none');
         }
@@ -122,7 +117,7 @@ class World {
 
     gameOverFunction() {
         if (this.gameOver) {
-            this.paused = !this.paused;
+            paused = paused;
             this.gameOver = false;
             document.getElementById('gameOverPicture').classList.remove('d-none');
         }
@@ -137,7 +132,7 @@ class World {
     }
 
     draw() {
-        if(!this.paused) {
+        if(!paused) {
             this.ctx.clearRect(0, 0, canvas.width, canvas.height);            
             this.ctx.translate(this.camera_x, 0);        
             this.addObjectsToMap(this.level.backgroundObjects); 
