@@ -12,12 +12,12 @@ class MoveableObject extends DrawableObject {
     lastHit = 0;
     moveLeftInterval;
     gravityIntervall;
+    
 
     constructor(world) {
         super();
         this.world = world;          
     }
-
 
     applyGravity(){
         this.gravityIntervall = setInterval(() => {

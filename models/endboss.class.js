@@ -7,6 +7,7 @@ class Endboss extends MoveableObject {
     lastHit = 0;
     hurt = false;
     firtContact = false;
+    i = 0;
     offset = {
         top: 10,
         left: 5,
@@ -50,11 +51,12 @@ class Endboss extends MoveableObject {
         './img/4_enemie_boss_chicken/3_attack/G19.png',
         './img/4_enemie_boss_chicken/3_attack/G20.png',
     ];   
+    
 
     constructor(world) {
         super(world); 
         this.world = world;
-        this.moveInterval = null;
+        this.bossMoveInterval = null;
         this.loadImage(this.images_Walking[0]); 
         this.loadImages(this.images_Walking);
         this.loadImages(this.images_Alert);
@@ -69,50 +71,94 @@ class Endboss extends MoveableObject {
     endBossAnimate() {
         if (this.endbossAnimation) {
             clearInterval(this.endbossAnimation);
-        }
-        let i = 0
+        }        
         this.endbossAnimation = setInterval(() => {
-            if (i < 9) {
-                this.playAnimation(this.images_Alert);
-            }else {
-                if (this.energy > 0 && this.firtContact && !this.hurt && (this.x - this.world.character.x < 100)){
-                    this.playAnimation(this.images_Attack);     
-                    this.stopMove();               
-                }else if (this.energy > 0  && !this.hurt && this.firtContact) {
-                    this.playAnimation(this.images_Walking);
-                    this.startMove();
-                    this.playSound();
-                }else if (this.energy > 0 && this.hurt) {
-                    this.playAnimation(this.images_Hurt);
-                    this.hurt = false;
-                    this.stopMove();
-                }else if (this.energy === 0){
-                    this.playAnimation(this.images_Dead);
-                    this.stopMove();
-                    this.endGame();
-                }
-            }
-            i++;
-            if (this.world.character.x > 5960 && !this.firtContact) {
-                this.bossIntro();
-                this.firtContact = true;
-                i = 0;                              
-            }            
+            this.bossAnimation()
         },150)
         intervals.push(this.endbossAnimation);    
     }
 
+    bossAnimation() {
+        if (this.i < 9) {
+            this.playAnimation(this.images_Alert);
+        }else {
+            this.afterAlert();
+        }
+        this.i++;
+        if (this.isBossContact()) {
+            this.waitForBossIntro()                    
+        }   
+    }
+
+    isBossContact() {
+        return this.world.character.x > 5960 && !this.firtContact;
+    }
+
+    waitForBossIntro() {
+        this.bossIntro();
+        this.firtContact = true;
+        this.i = 0;  
+    }
+    
+    afterAlert() {
+        if (this.bossCanAttack()){
+           this.bossAttack();
+        }else if (this.bossCanWalk()) {
+            this.bossWalk();
+        }else if (this.isBossHurt()) {
+            this.bossIsHurt();
+        }else if (this.energy === 0){
+            this.bossIsDead();
+        }
+    }
+
+    bossCanAttack() {
+        return this.energy > 0 && this.firtContact && !this.hurt && (this.x - this.world.character.x < 100);
+    }
+
+    bossAttack() {
+        this.playAnimation(this.images_Attack);     
+        this.stopMove();    
+    }
+
+    bossCanWalk() {
+        return this.energy > 0  && !this.hurt && this.firtContact;
+    }
+
+    bossWalk() {
+        this.playAnimation(this.images_Walking);
+        this.startMove();
+        this.playSound();
+    }
+
+    isBossHurt() {
+        return this.energy > 0 && this.hurt;
+    }
+
+    bossIsHurt() {
+        this.playAnimation(this.images_Hurt);
+        this.hurt = false;
+        this.stopMove();
+    }
+
+    bossIsDead() {
+        this.playAnimation(this.images_Dead);
+        this.stopMove();
+        this.endGame();
+    }
+
     startMove() {
-        if (this.moveInterval) return;     
-            this.moveInterval = setInterval(() => {
+        if (this.bossMoveInterval) return;     
+            this.bossMoveInterval = setInterval(() => {
                 this.x -= 2; 
         }, 1000 / 60); 
+        intervals.push(this.bossMoveInterval)
     }
 
     stopMove() {
-        if (this.moveInterval) {
-            clearInterval(this.moveInterval);
-            this.moveInterval = null;
+        if (this.bossMoveInterval) {
+            clearInterval(this.bossMoveInterval);
+            this.bossMoveInterval = null;
         }
     }
 

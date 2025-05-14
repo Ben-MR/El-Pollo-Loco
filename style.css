@@ -11,7 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('./img/desert-5112222_1920.png');
+    background-image: url('./img/desert.jpg');
     background-position: center;
     background-repeat: no-repeat;
     
@@ -199,10 +199,6 @@ canvas {
     margin: 100px 0 0 20% ;
 }
 
-.impressum {
-    
-}
-
 .impressum-back {
     width: 45px;
     height: 45px;
@@ -226,7 +222,10 @@ canvas {
 
 
 
+
+
 @media only screen and (max-width: 760px){
+
     canvas {
         width: 100%;
     }
@@ -278,6 +277,7 @@ canvas {
 }
 
 @media only screen and (max-height: 480px) {
+
     canvas {
         height: 100vh;
     }

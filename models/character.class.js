@@ -75,7 +75,7 @@ class Character extends MoveableObject {
     audio_jump = new Audio ('./audio/jump.mp3');
     audio_hit = new Audio ('./audio/character_hit2.mp3');
     audio_death = new Audio ('./audio/character_death.mp3');
-    audio_gameOver = new Audio ('./audio/game-over.mp3');
+    audio_gameOver = new Audio ('./audio/game-over.mp3');    
 
 
     constructor(world) {
@@ -87,6 +87,7 @@ class Character extends MoveableObject {
         this.loadImages(this.images_idle);
         this.audio_snoring = new Audio ('./audio/snoring.mp3');
         this.audio_snoring.loop = true;
+        this.audio_walking = new Audio ('./audio/walking.mp3')
         this.applyGravity();
         this.characterAnimate();
         this.timerFunction();
@@ -95,60 +96,114 @@ class Character extends MoveableObject {
 
     characterAnimate() {          
         this.timerFunction();
-        this.charakterMoveAnimationMove = setInterval(() => {
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-                this.isIdle = false;
-                this.timerFunction();
-            };
-            if (this.world.keyboard.LEFT && this.x > 120 ) {
-                this.x -= this.speed;   
-                this.otherDirection = true;
-                this.isIdle = false;
-                this.timerFunction();
-            };
-            this.world.camera_x = -this.x + 100
-            if (this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()) {
-                this.jumpAnima = true;
-                this.jump();
-                this.isIdle = false;
-                this.timerFunction();
-                if (sound) {
-                    this.audio_jump.play(); 
-                }                
-            }
-        },60/1000);
-        intervals.push(this.charakterMoveAnimationMove);
-
-        this.charakterAnimation = setInterval(() => {
-            if (this.isDead()) {
-                if (sound) {
-                    this.audio_death.play();
-                }                    
-                this.characterDead();
-            } else if (this.isHurt()) {
-                this.playAnimation(this.images_hurt);   
-                if (!this.audioPlayedDuringHurt) {
-                    if (sound) {
-                        this.audio_hit.play(); 
-                    }                    
-                    this.audioPlayedDuringHurt = true;
-                }        
-            } else if (this.isAboveGround() && this.jumpAnima === true) {
-                this.jumpAnimation();
-                this.audioPlayedDuringHurt = false; 
-            } else {
-                if (this.isIdle) {
-                    this.playAnimation(this.images_idle);
-                    if (sound && paused) {
-                        this.audio_snoring.play();
-                    }                    
-                } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.imagesWalking);
-                }
-                this.audioPlayedDuringHurt = false;}
-        }, 100);
+        this.charakterMoveAnimationMove = setInterval(() => this.moveCharacter() ,60/1000);
+        intervals.push(this.charakterMoveAnimationMove);      
+        this.charakterAnimation = setInterval(() => this.moveCharacterAnimation(), 100);
         intervals.push(this.charakterAnimation);
+    }
+
+    moveCharacter() {
+        if (this.canMoveRight()) {
+            this.characterMoveRight();
+        };
+        if (this.canMoveLeft()) {
+            this.characterMoveLeft();
+        };
+        this.world.camera_x = -this.x + 100
+        if (this.canJump()) {
+             this.characterJump();
+        }
+    }
+
+    canMoveRight() {
+        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+    }
+
+    characterMoveRight() {
+        super.moveRight();
+        if (sound && !this.isAboveGround()) {
+            this.audio_walking.play();
+        }
+        this.isIdle = false;
+        this.timerFunction();
+    }
+
+    canMoveLeft() {
+        return this.world.keyboard.LEFT && this.x > 120;
+    }
+
+    characterMoveLeft() {
+        this.x -= this.speed;   
+        if (sound && !this.isAboveGround()) {
+            this.audio_walking.play();
+        }
+        this.otherDirection = true;
+        this.isIdle = false;
+        this.timerFunction();
+    }
+
+    canJump() {
+        return this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround();
+    }
+
+    characterJump() {
+        this.jumpAnima = true;
+        this.jump();
+        this.isIdle = false;
+        this.timerFunction();
+        if (sound) {
+            this.audio_jump.play(); 
+        }   
+    }
+
+    moveCharacterAnimation () {
+        if (this.isDead()) {
+            this.characterDied ();
+        } else if (this.isHurt()) {
+            this.characterIsHurt();
+        } else if (this.onJump()) {
+            this.characterOnJump();
+        } else {
+            this.characterIsIdle();
+        }
+    }
+
+    characterDied () {
+        if (sound) {
+            this.audio_death.play();
+        }                    
+        this.characterDead();
+    }
+
+    characterIsHurt() {
+        this.playAnimation(this.images_hurt);   
+        if (!this.audioPlayedDuringHurt) {
+            if (sound) {
+                this.audio_hit.play(); 
+            }                    
+            this.audioPlayedDuringHurt = true;
+        }    
+    }
+
+    onJump() {
+        return this.isAboveGround() && this.jumpAnima === true
+    }
+
+    characterOnJump() {
+        this.jumpAnimation();
+        this.audioPlayedDuringHurt = false; 
+    }
+
+    characterIsIdle() {
+        if (this.isIdle) {
+            this.playAnimation(this.images_idle);
+            if (sound && paused) {
+                this.audio_snoring.play();
+            }                    
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.imagesWalking);
+        }
+        this.audioPlayedDuringHurt = false;
     }
 
     timerFunction() {

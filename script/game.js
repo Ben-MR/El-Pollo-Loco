@@ -14,6 +14,7 @@ keyboardOn = true;
 paused = false; 
 intervals = [];
 
+
 function init() {
     mobilePlay();
     canvas = document.getElementById('canvas');
