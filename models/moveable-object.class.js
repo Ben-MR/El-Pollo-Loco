@@ -47,9 +47,9 @@ class MoveableObject extends DrawableObject {
     }
 
     isCollidingJump(enemy) {
-        const characterBottom = this.y + this.height;
-        const enemyTop = enemy.y;    
-        const horizontalBuffer = 20; 
+        const characterBottom = this.y + this.height - this.offset.bottom;
+        const enemyTop = enemy.y + enemy.offset.top;    
+        const horizontalBuffer = 13; 
         const verticalBuffer = 10;    
         const horizontalOverlap =
             (this.x + this.width) > (enemy.x - horizontalBuffer) &&

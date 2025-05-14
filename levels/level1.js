@@ -96,6 +96,7 @@ level1 = new Level(
         new CollectableObjectsCoins('./img/8_coin/coin_1.png', 4650, 280),
     ],
     [
+        new CollectableObjectsBottles('./img/6_salsa_bottle/1_salsa_bottle_on_ground.png', 600),
         new CollectableObjectsBottles('./img/6_salsa_bottle/1_salsa_bottle_on_ground.png', 700),
         new CollectableObjectsBottles('./img/6_salsa_bottle/1_salsa_bottle_on_ground.png', 800),
         new CollectableObjectsBottles('./img/6_salsa_bottle/1_salsa_bottle_on_ground.png', 1400),

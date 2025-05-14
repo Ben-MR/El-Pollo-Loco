@@ -7,7 +7,7 @@ class World {
     keyboard;
     camera_x = 0;
     allIntervals = [];
-    bottleThrown = true;
+    bottleThrown = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -63,18 +63,16 @@ class World {
     }
 
     checkThrowObjects() {
-        if (this.bottleThrown) {
-            if(this.keyboard.CTRLL && this.statusBarBottle.bottles > 0) {
-                this.bottleThrown = false;
-                let bottle = new ThrowableObjects (this.character.x +70, this.character.y + 100);
-                this.throwableObjects.push(bottle);
-                this.statusBarBottle.bottlesDown(); 
-                setTimeout(() => {
-                    this.bottleThrown = true;
-                }, 200);
-            }
-        }
+    if (this.keyboard.CTRLL && !this.bottleThrown && this.statusBarBottle.bottles > 0) {
+        this.bottleThrown = true; 
+        let bottle = new ThrowableObjects(this.character.x + 70, this.character.y + 100);
+        this.throwableObjects.push(bottle);
+        this.statusBarBottle.bottlesDown();
     }
+    if (!this.keyboard.CTRLL) {
+        this.bottleThrown = false;
+    }
+}
 
     checkBottleCollisions() {
         this.throwableObjects.forEach((bottle) => {
@@ -170,7 +168,7 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-        // mo.drawFrame2(this.ctx);
+        mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }

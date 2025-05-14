@@ -10,9 +10,9 @@ class Character extends MoveableObject {
     isIdle = false; 
     offset = {
         top: 110,
-        left: 15,
+        left: 18,
         right: 35,
-        bottom: 5
+        bottom: 15
     }
     imagesWalking = [
         './img/2_character_pepe/2_walk/W-21.png',
