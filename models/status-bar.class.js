@@ -20,12 +20,22 @@ class StatusBar extends DrawableObject{
         this.setPercentage(5);
     }
 
+    /**
+     * Shows the correct image from the image array. 
+     * 
+     * @param {number} percentage - position of image in array
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.images_statusbar_health[this.resolveImageIndex()]
         this.img = this.imageCache[path];     
     }
 
+    /**
+     * Resolves the image index based on the current percentage value.
+     * 
+     * @returns number
+     */
     resolveImageIndex() {
         if (this.percentage == 5) {
             return 5;

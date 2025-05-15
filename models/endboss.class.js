@@ -66,8 +66,13 @@ class Endboss extends MoveableObject {
         this.endBossAnimate();
         this.audio_boss_intro = new Audio('./audio/boss-intro2.mp3');
         this.audio_boss_intro.volume = 0.3;
+        this.audio_victory = new Audio ('./audio/victory.mp3');
     }
 
+    /**
+     * Initializes and controls the animation loop for the end boss character.
+     * Clears any existing interval before starting a new one and triggers the boss animation sequence.
+     */
     endBossAnimate() {
         if (this.endbossAnimation) {
             clearInterval(this.endbossAnimation);
@@ -78,6 +83,10 @@ class Endboss extends MoveableObject {
         intervals.push(this.endbossAnimation);    
     }
 
+    /**
+     * Controls the boss's animation logic based on internal states such as alert phase,
+     * proximity to the character, and whether an intro or combat phase should be triggered.
+     */
     bossAnimation() {
         if (this.i < 9) {
             this.playAnimation(this.images_Alert);
@@ -90,16 +99,26 @@ class Endboss extends MoveableObject {
         }   
     }
 
+    /**
+     * Checks if the character has reached the boss area and the first contact hasn't occurred yet.
+     * @returns {boolean} True if the boss encounter should begin.
+     */
     isBossContact() {
         return this.world.character.x > 5960 && !this.firtContact;
     }
 
+    /**
+     * Triggers the boss intro sequence, disables player input, and resets animation counter.
+     */
     waitForBossIntro() {
         this.bossIntro();
         this.firtContact = true;
         this.i = 0;  
     }
     
+    /**
+     * Determines the appropriate action for the boss to perform after the alert animation.
+     */
     afterAlert() {
         if (this.bossCanAttack()){
            this.bossAttack();
@@ -112,41 +131,70 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Determines whether the boss should attack the player.
+     * @returns {boolean} True if the boss is close enough and not hurt.
+     */
     bossCanAttack() {
         return this.energy > 0 && this.firtContact && !this.hurt && (this.x - this.world.character.x < 100);
     }
 
+    /**
+     * Plays the boss's attack animation and stops movement.
+     */
     bossAttack() {
         this.playAnimation(this.images_Attack);     
         this.stopMove();    
     }
 
+    /**
+     * Determines whether the boss should move (walk).
+     * @returns {boolean} True if the boss is active and not hurt.
+     */
     bossCanWalk() {
         return this.energy > 0  && !this.hurt && this.firtContact;
     }
 
+    /**
+     * Plays the walking animation, starts movement, and plays walking sound.
+     */
     bossWalk() {
         this.playAnimation(this.images_Walking);
         this.startMove();
         this.playSound();
     }
 
+    /**
+     * Checks whether the boss is currently in a hurt state.
+     * @returns {boolean} True if the boss is hurt and still alive.
+     */
     isBossHurt() {
         return this.energy > 0 && this.hurt;
     }
 
+    /**
+     * Plays the hurt animation and stops the boss's movement.
+     */
     bossIsHurt() {
         this.playAnimation(this.images_Hurt);
         this.hurt = false;
         this.stopMove();
     }
 
+    /**
+     * Handles the boss death sequence including animation, stopping movement,
+     * and transitioning to endgame logic.
+     */
     bossIsDead() {
         this.playAnimation(this.images_Dead);
         this.stopMove();
         this.endGame();
     }
 
+    /**
+     * Starts the boss's movement in a fixed interval.
+     * Prevents multiple intervals from being created.
+     */
     startMove() {
         if (this.bossMoveInterval) return;     
             this.bossMoveInterval = setInterval(() => {
@@ -155,6 +203,9 @@ class Endboss extends MoveableObject {
         intervals.push(this.bossMoveInterval)
     }
 
+    /**
+     * Stops the boss's movement by clearing its movement interval.
+     */
     stopMove() {
         if (this.bossMoveInterval) {
             clearInterval(this.bossMoveInterval);
@@ -162,6 +213,10 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Plays the boss's intro sound, disables player input temporarily,
+     * and pauses the background music.
+     */
     bossIntro() {        
         if (sound) {
             this.audio_boss_intro.play();
@@ -175,6 +230,9 @@ class Endboss extends MoveableObject {
         }, 1500);               
     }
 
+    /**
+     * plays the boss sounds
+     */
     playSound() {
         if (sound) {
             audio_chicken_angry.play();
@@ -182,6 +240,11 @@ class Endboss extends MoveableObject {
         }           
     }
 
+    /**
+     * Ends the game sequence after defeating the boss.
+     * Pauses all boss and background sounds, triggers boss death handling,
+     * and reveals the end screen overlay after a delay.
+     */
     endGame() {
         audio_boss_music.pause();  
         music.pause(); 
@@ -193,15 +256,24 @@ class Endboss extends MoveableObject {
         }, 4800);       
     }
 
+    /**
+     * Stops the boss's animation and movement after death.
+     * Sets the `gameWon` flag to true and clears all running game intervals.
+     */
     stopGameBossDeath() {
         setTimeout(() => {
             clearInterval(this.endbossAnimation);
             this.stopMove();
-            this.world.gameWon = true;    
+            this.world.gameWon = true;   
+            this.audio_victory.play(); 
             endGameIntervals();                
         }, 2000);   
     }
 
+    /**
+     * Applies a hit to the boss by reducing its energy.
+     * Prevents multiple hits within a short period by setting a cooldown.
+     */
     chickenHit() {
         if (this.isHurt()) return;
         this.hurt = true;
@@ -213,6 +285,10 @@ class Endboss extends MoveableObject {
         }
     }
 
+    /**
+     * Checks whether the boss is still in a temporary invulnerable state (hurt cooldown).
+     * @returns {boolean} True if the boss was hit less than 1 second ago.
+     */
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;// Difference im ms
         timePassed = timePassed / 1000; //Uwandlung in Sekunden        

@@ -23,12 +23,22 @@ class StatusBarCoin extends DrawableObject {
         sounds.push(this.audio_newCoin);
     }
 
+    /**
+     * Shows the correct image from the image array. 
+     * 
+     * @param {number} percentage - position of image in array
+     */
     setCoins(coins) {
         this.coins = coins;
         let path = this.images_statusbar_coin[this.resolveImageIndexCoin()]
         this.img = this.imageCache[path];        
     }
 
+    /**
+     * Resolves the image index based on the current percentage value.
+     * 
+     * @returns number
+     */
     resolveImageIndexCoin() {
         if (this.coins >= 20) {
             return 5;
@@ -45,6 +55,11 @@ class StatusBarCoin extends DrawableObject {
         }
     }
 
+    /**
+    * Increases the coin counter by one and updates the visual display.
+    *
+    * Also plays a sound effect when a new coin is collected, if sound is enabled.
+     */
     coinsUp() {
         this.coins++;   
         this.setCoins(this.coins);  

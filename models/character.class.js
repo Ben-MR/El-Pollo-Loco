@@ -72,6 +72,7 @@ class Character extends MoveableObject {
     world;
     charakterMoveAnimationMove;
     charakterAnimation;
+    fallInterval;
     audio_jump = new Audio ('./audio/jump.mp3');
     audio_hit = new Audio ('./audio/character_hit2.mp3');
     audio_death = new Audio ('./audio/character_death.mp3');
@@ -307,7 +308,6 @@ class Character extends MoveableObject {
     characterDead() {
         this.playAnimation(this.images_dead); 
         endGameIntervals();
-        paused = false;
         this.endScreen();    
     }  
 
@@ -320,14 +320,15 @@ class Character extends MoveableObject {
      */
     endScreen() {
         setTimeout(() => {
-            setInterval(() => {
+            this.fallInterval = setInterval(() => {
                 this.y += 10;                
-            }, 50);     
-            endGameIntervals();        
+            }, 50);    
+            intervals.push(this.fallInterval);                   
         }, 1000);
         this.stopGameDeath();
         setTimeout(() => {
-            document.getElementById('overlay').classList.remove('d-none');            
+            document.getElementById('overlay').classList.remove('d-none');    
+            endGameIntervals();          
         }, 4800); 
     }    
 

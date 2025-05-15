@@ -75,9 +75,9 @@ level1 = new Level(
     ],
     [
         new CollectableObjectsCoins('./img/8_coin/coin_1.png', 400, 270),
-        new CollectableObjectsCoins('./img/8_coin/coin_1.png', 980, 220),
-        new CollectableObjectsCoins('./img/8_coin/coin_1.png', 1060, 170),
-        new CollectableObjectsCoins('./img/8_coin/coin_1.png', 1120, 220),
+        new CollectableObjectsCoins('./img/8_coin/coin_1.png', 980, 160),
+        new CollectableObjectsCoins('./img/8_coin/coin_1.png', 1080, 140),
+        new CollectableObjectsCoins('./img/8_coin/coin_1.png', 1180, 160),
         new CollectableObjectsCoins('./img/8_coin/coin_1.png', 1880, 280),
         new CollectableObjectsCoins('./img/8_coin/coin_1.png', 1980, 170),
         new CollectableObjectsCoins('./img/8_coin/coin_1.png', 2080, 150),

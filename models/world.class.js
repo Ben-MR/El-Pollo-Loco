@@ -28,6 +28,7 @@ class World {
         this.setWorld();
         this.run();
     }
+    audio_victory = new Audio ('./audio/victory.mp3')
 
     /**
      * Associates the current world instance with the character.
@@ -137,7 +138,7 @@ class World {
      */
     gameOverFunction() {
         if (this.gameOver) {
-            paused = !paused;
+            this.paused = !this.paused;
             this.gameOver = false;
             document.getElementById('gameOverPicture').classList.remove('d-none');
         }
@@ -215,7 +216,7 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-        mo.drawFrame2(this.ctx);
+        //mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }

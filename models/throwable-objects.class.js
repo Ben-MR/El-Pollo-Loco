@@ -37,6 +37,9 @@ class ThrowableObjects extends MoveableObject{
         this.throw();
     }
 
+    /**
+     * Animation and physics for bottle throw
+     */
     throw() {
         this.speedY = 30;
         this.applyGravity();
@@ -46,6 +49,11 @@ class ThrowableObjects extends MoveableObject{
         this.animateBottleThrow();
     }
 
+    /**
+     * Animation for bottle throw.
+     * Stops animation when an enemy is hit, starts the bottle splash animation and 
+     * removes the object from level. 
+     */
     animateBottleThrow() {
         this.animationInterval = setInterval(() => {
             if (this.bottleHit) {
@@ -60,6 +68,9 @@ class ThrowableObjects extends MoveableObject{
         }, 50);
     }
 
+    /**
+     * Stops the interval of a thrown object.
+     */
     enemyHit() {
         this.bottleHit = true;
         clearInterval(this.moveInterval);
@@ -70,6 +81,9 @@ class ThrowableObjects extends MoveableObject{
         }            
     }
 
+    /**
+     * Removes thrown bottle from level
+     */
     removeBottle() {
         this.x = -1000;
     }

@@ -22,12 +22,23 @@ class StatusBarBottle extends DrawableObject {
         sounds.push(this.audio_newBottle);
     }
 
+    /**
+     * Shows the correct image from the image array. 
+     * 
+     * @param {number} percentage - position of image in array
+     */
     setBottle(bottles) {
         this.bottles = bottles;
         let path = this.images_statusbar_bottle[this.resolveImageIndexBottle()]
         this.img = this.imageCache[path];        
     }
 
+    
+    /**
+     * Resolves the image index based on the current percentage value.
+     * 
+     * @returns number
+     */
     resolveImageIndexBottle() {
         if (this.bottles >= 15) {
             return 5;
@@ -44,6 +55,11 @@ class StatusBarBottle extends DrawableObject {
         }
     }
 
+    /**
+    * Increases the bottle counter by one and updates the visual display.
+    *
+    * Also plays a sound effect when a new bottle is collected, if sound is enabled.
+     */
     bottlesUp() {
         this.bottles++ ;   
         this.setBottle(this.bottles);   
@@ -52,6 +68,9 @@ class StatusBarBottle extends DrawableObject {
         }          
     }
 
+    /**
+     * Reduces the bottle counter by one and updates the visual display.
+     */
     bottlesDown() {
         this.bottles--;   
         this.setBottle(this.bottles);     

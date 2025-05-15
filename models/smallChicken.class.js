@@ -31,6 +31,11 @@ class SmallChicken extends MoveableObject {
         this.animate();
     };
 
+    /**
+     * Animates the small chicken object. 
+     * Checks, if dead is true and play the dead animation.
+     * If dead is false, the object gets a walking animation and is moved left. 
+     */
     animate() {
         this.smallChickenAnimation = setInterval(() => {
             if(this.dead) {
@@ -42,10 +47,17 @@ class SmallChicken extends MoveableObject {
         intervals.push(this.smallChickenAnimation);
     }
 
+    /**
+     * Checks if chicken got hit and sets dead to true
+     */
     chickenHit() {
         this.dead = true;   
     }
 
+    /**
+     * Plays the dead animation an sound. 
+     * Clears the move intervall and pushes object off screen.
+     */    
     deadAnimation() {
         this.playAnimation(this.imagesDead);
         if (sound) {

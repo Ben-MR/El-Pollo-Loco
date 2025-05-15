@@ -3,7 +3,7 @@ class CollectableObjectsCoins extends MoveableObject{
         top: 45,
         left: 25,
         right: 25,
-        bottom: 45
+        bottom: 55
     }
     constructor(imagePath, x, y){
         super().loadImage(imagePath)

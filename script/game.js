@@ -42,6 +42,7 @@ function startGame() {
     document.getElementById('overlay').classList.add('d-none') 
     initLevel();        
     world = new World (canvas, keyboard);  
+    world.gameOver = false;
     music.play();        
 }
 

@@ -162,7 +162,6 @@ canvas {
     transform: translate(-50%, -50%);
     width: 500px;
     z-index: 10;
-    cursor: pointer;
 }
 
 canvas {
@@ -431,7 +430,14 @@ canvas {
     body {
         background-size: cover;
     }   
+
 }
+
+@media (min-height: 1280px) {
+    body {
+        background-position: top;
+    }
+} 
 
 .d-none {
     display: none;

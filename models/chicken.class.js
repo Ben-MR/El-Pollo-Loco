@@ -30,6 +30,16 @@ class Chicken extends MoveableObject {
         this.animate();
     };
 
+    /**
+     * Starts the chicken's walk/death animation loop and movement.
+     *
+     * Sets up a repeating interval to:
+     *  - Play the death animation if the chicken is marked dead.
+     *  - Otherwise, cycle through the walking images.
+     * Initiates leftward movement at a random speed between 0.2 and 0.45 units/frame.
+     * Stores the interval ID for later cleanup.
+     *
+     */
     animate() {
         this.chickenAnimation = setInterval(() => {
             if(this.dead) {
@@ -41,10 +51,17 @@ class Chicken extends MoveableObject {
         intervals.push(this.chickenAnimation);
     }
 
+    /**
+     * Marks the chicken as hit (dead), triggering the death animation on the next frame.
+     */
     chickenHit() {
         this.dead = true;   
     }
 
+    /**
+     * Plays the chicken's death animation, plays a sound if enabled,
+     * stops the walk animation interval, and makes the dead sprite fall.
+     */
     deadAnimation() {
         this.playAnimation(this.imagesDead);
         if (sound) {
