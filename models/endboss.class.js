@@ -9,7 +9,7 @@ class Endboss extends MoveableObject {
     firtContact = false;
     i = 0;
     offset = {
-        top: 10,
+        top: 20,
         left: 5,
         right: 5,
         bottom: 5
@@ -253,7 +253,7 @@ class Endboss extends MoveableObject {
         setTimeout(() => {
             document.getElementById('overlay').classList.remove('d-none');
             audio_boss_music.pause(); 
-        }, 4800);       
+        }, 4200);       
     }
 
     /**
@@ -265,7 +265,9 @@ class Endboss extends MoveableObject {
             clearInterval(this.endbossAnimation);
             this.stopMove();
             this.world.gameWon = true;   
-            this.audio_victory.play(); 
+            if (sound) {
+                this.audio_victory.play(); 
+            }            
             endGameIntervals();                
         }, 2000);   
     }

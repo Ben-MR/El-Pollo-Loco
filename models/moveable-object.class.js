@@ -32,7 +32,7 @@ applyGravity(){
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
         }
-        if (this.y > 175) {  
+        if (this.y > 175 && this instanceof Character) {  
             this.y = 175;
             this.speedY = 0;
         }

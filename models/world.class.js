@@ -76,16 +76,16 @@ class World {
      * With bottleThrown only one onject can be thrown with a keypress. 
      */
     checkThrowObjects() {
-    if (this.keyboard.CTRLL && !this.bottleThrown && this.statusBarBottle.bottles > 0) {
-        this.bottleThrown = true; 
-        let bottle = new ThrowableObjects(this.character.x + 70, this.character.y + 100);
-        this.throwableObjects.push(bottle);
-        this.statusBarBottle.bottlesDown();
+        if (this.keyboard.CTRLL && !this.bottleThrown && this.statusBarBottle.bottles > 0) {
+            this.bottleThrown = true; 
+            let bottle = new ThrowableObjects(this.character.x + 70, this.character.y + 100);
+            this.throwableObjects.push(bottle);
+            this.statusBarBottle.bottlesDown();
+        }
+        if (!this.keyboard.CTRLL) {
+            this.bottleThrown = false;
+        }
     }
-    if (!this.keyboard.CTRLL) {
-        this.bottleThrown = false;
-    }
-}
 
     /**
      * Check if the thrown objects hits an enemy.
@@ -214,7 +214,7 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-        //mo.drawFrame2(this.ctx);
+        mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }

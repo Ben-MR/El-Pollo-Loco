@@ -353,7 +353,11 @@ canvas {
 }
 
 @media screen and (orientation:portrait) {
-    canvas {
+    .canvas-container {
+        display: none;
+    }
+
+    .sound-on-button {
         display: none;
     }
 
@@ -441,7 +445,7 @@ canvas {
     }
 }
 
-@media (pointer: coarse) {
+@media (pointer: coarse) and (orientation:landscape){
     .mobile-controll-left {
         display: block;
     }
