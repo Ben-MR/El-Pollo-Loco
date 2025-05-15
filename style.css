@@ -433,7 +433,7 @@ canvas {
 
 }
 
-@media (min-height: 1280px) {
+@media (min-height: 1180px) {
     body {
         background-position: top;
     }

@@ -9,7 +9,7 @@ audio_boss_music.volume = 0.5;
 let audio_chicken_angry = new Audio ('./audio/angry-chicken.mp3');
 audio_chicken_angry.loop
 sounds =[];
-sound = true;
+let sound = true;
 keyboardOn = true;
 paused = false; 
 intervals = [];
@@ -39,11 +39,12 @@ function startGame() {
     document.getElementById('canvas-container').classList.remove('d-none');
     document.getElementById('gameWonPicture').classList.add('d-none');   
     document.getElementById('startMobilePicture').classList.add('d-none'); 
-    document.getElementById('overlay').classList.add('d-none') 
+    document.getElementById('overlay').classList.add('d-none');
+    getSoundFromStorage();
+    setSound(); 
     initLevel();        
     world = new World (canvas, keyboard);  
-    world.gameOver = false;
-    music.play();        
+    world.gameOver = false;       
 }
 
 /**
@@ -144,6 +145,29 @@ document.addEventListener('keydown', event => {
 }
 
 /**
+ * Gets saved sound attitude from storage
+ */
+function getSoundFromStorage() {
+    const storedSound = localStorage.getItem('sound');
+    sound = storedSound === 'true'; 
+}
+
+/**
+ * Sets sound based on the saved attitude in storage
+ */
+function setSound() {
+    if (sound) {
+        music.play();
+        document.getElementById('musicOn').classList.remove('d-none');
+        document.getElementById('musicOff').classList.add('d-none');
+    } else {
+        music.pause();
+        document.getElementById('musicOn').classList.add('d-none');
+        document.getElementById('musicOff').classList.remove('d-none');
+    }
+}
+
+/**
  * Turns music and sound-effects on and changes the button.
  */
 function musicOn() {
@@ -151,6 +175,7 @@ function musicOn() {
     document.getElementById('musicOff').classList.toggle('d-none');
     music.play();
     sound = true;  
+    localStorage.setItem('sound', true);
 }
 
 /**
@@ -160,7 +185,8 @@ function musicOff() {
     document.getElementById('musicOn').classList.toggle('d-none');
     document.getElementById('musicOff').classList.toggle('d-none');
     music.pause();
-    sound = false;    
+    sound = false;  
+    localStorage.setItem('sound', false);  
 }
 
 /**

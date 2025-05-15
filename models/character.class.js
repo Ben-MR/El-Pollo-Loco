@@ -58,6 +58,8 @@ class Character extends MoveableObject {
         './img/2_character_pepe/1_idle/idle/I-8.png',
         './img/2_character_pepe/1_idle/idle/I-9.png',
         './img/2_character_pepe/1_idle/idle/I-10.png',
+    ];
+    images_sleep = [
         './img/2_character_pepe/1_idle/long_idle/I-11.png',
         './img/2_character_pepe/1_idle/long_idle/I-12.png',
         './img/2_character_pepe/1_idle/long_idle/I-13.png',
@@ -69,6 +71,7 @@ class Character extends MoveableObject {
         './img/2_character_pepe/1_idle/long_idle/I-19.png',
         './img/2_character_pepe/1_idle/long_idle/I-20.png',
     ]
+
     world;
     charakterMoveAnimationMove;
     charakterAnimation;
@@ -77,7 +80,7 @@ class Character extends MoveableObject {
     audio_hit = new Audio ('./audio/character_hit2.mp3');
     audio_death = new Audio ('./audio/character_death.mp3');
     audio_gameOver = new Audio ('./audio/game-over.mp3');    
-
+   
 
     constructor(world) {
         super(world).loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
@@ -86,6 +89,7 @@ class Character extends MoveableObject {
         this.loadImages(this.images_dead);
         this.loadImages(this.images_hurt);
         this.loadImages(this.images_idle);
+        this.loadImages(this.images_sleep);
         this.audio_snoring = new Audio ('./audio/snoring.mp3');
         this.audio_snoring.loop = true;
         this.audio_walking = new Audio ('./audio/walking.mp3')
@@ -111,6 +115,7 @@ class Character extends MoveableObject {
      * horizontal camera offset (`camera_x`) to follow the character
      */
     moveCharacter() {
+        
         if (this.canMoveRight()) {
             this.characterMoveRight();
         };
@@ -206,7 +211,7 @@ class Character extends MoveableObject {
         } else if (this.onJump()) {
             this.characterOnJump();
         } else {
-            this.characterIsIdle();
+            this.characterSleeps();
         }
     }
 
@@ -253,20 +258,51 @@ class Character extends MoveableObject {
     }
 
     /**
-     * Plays the idle or walking animation based on movement state.
+     * Plays either the idle or sleep animation depending on how long the character
+     * has been inactive.
      *
-     * Also plays a snoring sound if the character is idle and the game is paused.
-     */ 
-    characterIsIdle() {
-        if (this.isIdle) {
-            this.playAnimation(this.images_idle);
-            if (sound && paused) {
-                this.audio_snoring.play();
-            }                    
-        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.playAnimation(this.imagesWalking);
+     * - Solange `isIdle === false` (also innerhalb der ersten 10 s Inaktivität):
+     *   wird die normale Idle-Animation (`images_idle`) abgespielt.
+     * - Sobald `isIdle === true` (nach 10 s Timer):
+     *   wird die Schlaf-Animation (`images_sleep`) abgespielt und ggf. das Schnarchen gestartet.
+     */
+    characterSleeps() {
+    const isMoving = this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
+        if (isMoving) {
+            this.charakterMoveafterIdle();
+        } else if (!this.isIdle) {
+            this.playIdleAnimation();
+        } else {
+            this.playSleepAnimation();
         }
+    this.audioPlayedDuringHurt = false;
+    }
+
+    /**
+     * Moves character after idle animation
+     */
+    charakterMoveafterIdle() {
+        this.playAnimation(this.imagesWalking);
+        this.audio_snoring.pause();  
         this.audioPlayedDuringHurt = false;
+    }
+
+    /**
+     * plays the idle animation
+     */
+    playIdleAnimation(){
+        this.playAnimation(this.images_idle);
+        this.audio_snoring.pause(); 
+    }
+
+    /**
+     * plays sleep animation
+     */
+    playSleepAnimation(){
+        this.playAnimation(this.images_sleep);
+        if (sound && this.audio_snoring.paused) {
+            this.audio_snoring.play();
+        }
     }
 
     /**
@@ -275,14 +311,12 @@ class Character extends MoveableObject {
      * Also pauses the snoring sound when activity resumes.
      */
     timerFunction() {
-        this.audio_snoring.pause();
-        if (this.idleTimeout) {
-            clearTimeout(this.idleTimeout);
-        }
-        this.isIdle = false;
+        this.audio_snoring.pause();              
+        if (this.idleTimeout) clearTimeout(this.idleTimeout);
+        this.isIdle = false;                     
         this.idleTimeout = setTimeout(() => {
-            this.isIdle = true;
-        }, 10000);
+            this.isIdle = true;                  
+        }, 10_000);
     }
 
     /**
