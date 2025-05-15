@@ -1,5 +1,4 @@
-class World {
-     
+class World {     
     gameOver = false;
     gameWon = false;
     canvas;
@@ -28,7 +27,6 @@ class World {
         this.setWorld();
         this.run();
     }
-    audio_victory = new Audio ('./audio/victory.mp3')
 
     /**
      * Associates the current world instance with the character.
@@ -64,7 +62,7 @@ class World {
                 enemy.chickenHit();
                 this.character.speedY = 2; 
             } else if (this.character.isColliding(enemy)) {
-                if (!this.character.isCollidingJump(enemy) && !this.character.isHurt()) {
+                if (!this.character.isCollidingJump(enemy) && !this.character.isHurt() && hitAfterJump) {
                     this.character.hit();
                     this.statusBar.percentage = this.statusBar.percentage - 1;
                     this.statusBar.setPercentage(this.statusBar.percentage);                 

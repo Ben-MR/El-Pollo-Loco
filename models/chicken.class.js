@@ -55,7 +55,11 @@ class Chicken extends MoveableObject {
      * Marks the chicken as hit (dead), triggering the death animation on the next frame.
      */
     chickenHit() {
+        hitAfterJump = false;
         this.dead = true;   
+        setTimeout(() => {
+            hitAfterJump = true;
+        }, 200);
     }
 
     /**

@@ -26,15 +26,19 @@ class MoveableObject extends DrawableObject {
     * it moves the object down by decreasing its vertical speed (`speedY`) based on an 
     * acceleration factor.
      */
-    applyGravity(){
-        this.gravityIntervall = setInterval(() => {
-            if(this.isAboveGround() || this.speedY > 0){
+applyGravity(){
+    this.gravityIntervall = setInterval(() => {
+        if (this.isAboveGround() || this.speedY > 0) {
             this.y -= this.speedY;
             this.speedY -= this.acceleration;
-            }
-        }, 1000/25 );     
-        intervals.push(this.gravityIntervall);
-    }
+        }
+        if (this.y > 175) {  
+            this.y = 175;
+            this.speedY = 0;
+        }
+    }, 1000 / 25);
+    intervals.push(this.gravityIntervall);
+}
 
     /**
      * Checks if object is above ground.

@@ -353,11 +353,17 @@ canvas {
 }
 
 @media screen and (orientation:portrait) {
-    .start-picture {
+    canvas {
         display: none;
     }
 
-
+    .sound-on-button {
+        display: none;
+    }
+    
+    .start-picture {
+        display: none;
+    }
 
     .fullscreen {
         display: none;
@@ -420,11 +426,31 @@ canvas {
     }
 }
 
-@media screen and (orientation:landscape) {
+@media only screen and (orientation:landscape) {
     .start-picture-mobile {
         height: inherit;
     }
+
+    body {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .control-container {
+        display: none;
+    }
 }
+
+@media (pointer: coarse) {
+    .mobile-controll-left {
+        display: block;
+    }
+
+    .mobile-controll-right {
+        display: block;
+    }
+}
+
 
 @media (min-aspect-ratio: 2/1) {
     body {
@@ -438,6 +464,13 @@ canvas {
         background-position: top;
     }
 } 
+
+@media (min-width: 3840px) {
+    body {
+        background-size: cover;
+    }
+    
+}
 
 .d-none {
     display: none;
