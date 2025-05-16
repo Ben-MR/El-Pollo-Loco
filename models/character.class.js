@@ -114,8 +114,7 @@ class Character extends MoveableObject {
      * (move right, move left, or jump). Also updates the
      * horizontal camera offset (`camera_x`) to follow the character
      */
-    moveCharacter() {
-        
+    moveCharacter() {        
         if (this.canMoveRight()) {
             this.characterMoveRight();
         };
@@ -146,6 +145,7 @@ class Character extends MoveableObject {
             this.audio_walking.play();
         }
         this.isIdle = false;
+        directionLeft = false;
         this.timerFunction();
     }
 
@@ -168,6 +168,7 @@ class Character extends MoveableObject {
         }
         this.otherDirection = true;
         this.isIdle = false;
+        directionLeft = true;
         this.timerFunction();
     }
 
@@ -316,7 +317,7 @@ class Character extends MoveableObject {
         this.isIdle = false;                     
         this.idleTimeout = setTimeout(() => {
             this.isIdle = true;                  
-        }, 10_000);
+        }, 10000);
     }
 
     /**
@@ -363,7 +364,7 @@ class Character extends MoveableObject {
         setTimeout(() => {
             document.getElementById('overlay').classList.remove('d-none');    
             endGameIntervals();          
-        }, 4800); 
+        }, 3800); 
     }    
 
     /**

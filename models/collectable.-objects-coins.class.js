@@ -1,8 +1,8 @@
 class CollectableObjectsCoins extends MoveableObject{
     offset = {
-        top: 45,
-        left: 25,
-        right: 25,
+        top: 55,
+        left: 35,
+        right: 35,
         bottom: 55
     }
     constructor(imagePath, x, y){

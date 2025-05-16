@@ -7,6 +7,7 @@ class World {
     camera_x = 0;
     allIntervals = [];
     bottleThrown = false;
+    bottleWait = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -74,17 +75,41 @@ class World {
     /**
      * Throws an object with keypress
      * With bottleThrown only one onject can be thrown with a keypress. 
+     * 
      */
     checkThrowObjects() {
-        if (this.keyboard.CTRLL && !this.bottleThrown && this.statusBarBottle.bottles > 0) {
-            this.bottleThrown = true; 
-            let bottle = new ThrowableObjects(this.character.x + 70, this.character.y + 100);
-            this.throwableObjects.push(bottle);
-            this.statusBarBottle.bottlesDown();
+        if (this.canThrwoBottle()) {
+            this.createNewThrwonBottle();
         }
         if (!this.keyboard.CTRLL) {
             this.bottleThrown = false;
         }
+        setTimeout(() => {
+            this.bottleWait = false;
+        }, 500);        
+    }
+
+    /**
+     * Returns true if the player is currently allowed to throw a bottle.
+     */
+    canThrwoBottle() {
+        return this.keyboard.CTRLL && 
+        !this.bottleThrown && 
+        this.statusBarBottle.bottles > 0 && 
+        !this.bottleWait
+    }
+
+    /**
+     * Spawns a new bottle and positions the new bottle just in front of the character.
+     * 
+     */
+    createNewThrwonBottle() {
+            this.bottleThrown = true; 
+            this.bottleWait = true;
+            const offsetX = directionLeft ? 10 : 70;
+            let bottle = new ThrowableObjects(this.character.x + offsetX, this.character.y + 100, this.otherDirection);
+            this.throwableObjects.push(bottle);
+            this.statusBarBottle.bottlesDown();
     }
 
     /**
@@ -214,7 +239,7 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-        mo.drawFrame2(this.ctx);
+       // mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }

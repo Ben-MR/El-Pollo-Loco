@@ -27,7 +27,8 @@ class ThrowableObjects extends MoveableObject{
     audio_enemyHit = new Audio ('./audio/bottle-smash-107832.mp3')
 
     constructor(x, y) {
-        super().loadImage('./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
+        super();
+        this.loadImage('./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.images_Bottle_Rotation);
         this.loadImages(this.images_Bottle_Splash);
         this.x = x;
@@ -38,15 +39,37 @@ class ThrowableObjects extends MoveableObject{
     }
 
     /**
-     * Animation and physics for bottle throw
+     * Animation and physics for bottle throw.
+     * Checks with directionLeft if character moves right or left.
      */
     throw() {
         this.speedY = 30;
         this.applyGravity();
+        if (!directionLeft) {
+            this.throwsBottleRight();
+        }
+        if (directionLeft) {
+            this.throwsBottleLeft();
+        }
+        this.animateBottleThrow();          
+    }
+
+    /**
+     * Moves bottle-object to the right.
+     */
+    throwsBottleRight() {
         this.moveInterval = setInterval(() => {
-            this.x += 5;
+        this.x += 5;
         }, 25);
-        this.animateBottleThrow();
+    }
+
+    /**
+     * Moves bottle-object to the left.
+     */
+    throwsBottleLeft() {
+        this.moveInterval = setInterval(() => {
+        this.x -= 5;
+        }, 25);
     }
 
     /**

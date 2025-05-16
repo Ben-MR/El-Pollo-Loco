@@ -3,8 +3,8 @@ class CollectableObjectsBottles extends MoveableObject{
     height = 120;
     y = 310;
     offset = {
-        top: 5,
-        left: 35,
+        top: 25,
+        left: 55,
         right: 25,
         bottom: 1
     }

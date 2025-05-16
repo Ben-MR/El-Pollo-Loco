@@ -253,7 +253,7 @@ class Endboss extends MoveableObject {
         setTimeout(() => {
             document.getElementById('overlay').classList.remove('d-none');
             audio_boss_music.pause(); 
-        }, 4200);       
+        }, 3800);       
     }
 
     /**

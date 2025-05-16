@@ -13,6 +13,7 @@ let sound = true;
 keyboardOn = true;
 paused = false; 
 hitAfterJump = true;
+directionLeft = false;
 intervals = [];
 
 
