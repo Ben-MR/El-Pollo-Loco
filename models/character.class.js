@@ -12,7 +12,7 @@ class Character extends MoveableObject {
         top: 110,
         left: 18,
         right: 35,
-        bottom: 15
+        bottom: 20
     }
     imagesWalking = [
         './img/2_character_pepe/2_walk/W-21.png',
@@ -131,7 +131,7 @@ class Character extends MoveableObject {
      * Checks whether the character is allowed to move to the right.
      */
     canMoveRight() {
-        return this.world.keyboard.RIGHT && this.x < (bossEnd - 50);
+        return this.world.keyboard.RIGHT && this.x < (bossEnd - 60);
     }
 
     /**

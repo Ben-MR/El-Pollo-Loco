@@ -177,6 +177,8 @@ function musicOn() {
     document.getElementById('musicOn').classList.toggle('d-none');
     document.getElementById('musicOff').classList.toggle('d-none');
     music.play();
+    audio_boss_music.volume = 0.5;
+    audio_chicken_angry.volume = 1;
     sound = true;  
     localStorage.setItem('sound', true);
 }
@@ -188,6 +190,8 @@ function musicOff() {
     document.getElementById('musicOn').classList.toggle('d-none');
     document.getElementById('musicOff').classList.toggle('d-none');
     music.pause();
+    audio_boss_music.volume = 0;
+    audio_chicken_angry.volume = 0;
     sound = false;  
     localStorage.setItem('sound', false);  
 }

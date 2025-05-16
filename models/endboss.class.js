@@ -9,7 +9,7 @@ class Endboss extends MoveableObject {
     firtContact = false;
     i = 0;
     offset = {
-        top: 20,
+        top: 40,
         left: 5,
         right: 5,
         bottom: 5
@@ -157,6 +157,7 @@ class Endboss extends MoveableObject {
 
     /**
      * Plays the walking animation, starts movement, and plays walking sound.
+     * Sets the end of the level at the boss with bossEnd. 
      */
     bossWalk() {
         this.playAnimation(this.images_Walking);

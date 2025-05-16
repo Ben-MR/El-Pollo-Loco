@@ -48,7 +48,6 @@ class World {
             this.collectBottles();
             this.gameOverFunction();
             this.gameWonFunction();
-            this.levelEnd();
         }, 60/1000);
         this.allIntervals.push(this.runInterval);
     }
@@ -84,10 +83,7 @@ class World {
         }
         if (!this.keyboard.CTRLL) {
             this.bottleThrown = false;
-        }
-        setTimeout(() => {
-            this.bottleWait = false;
-        }, 500);        
+        }     
     }
 
     /**
@@ -111,24 +107,29 @@ class World {
             let bottle = new ThrowableObjects(this.character.x + offsetX, this.character.y + 100, this.otherDirection);
             this.throwableObjects.push(bottle);
             this.statusBarBottle.bottlesDown();
+            setTimeout(() => {
+            this.bottleWait = false;
+            }, 800);   
     }
 
     /**
      * Check if the thrown objects hits an enemy.
      * If an enemy is hit, bottle and enemy are removed from level with an animation.
+     * Removes bottles from array when not on screen anymore. 
      */    
     checkBottleCollisions() {
-        this.throwableObjects.forEach((bottle) => {
-            this.level.enemies.forEach((enemy) => {
-                if (bottle.isCollidingComplete(enemy)) {
-                    enemy.chickenHit(enemy);
-                    bottle.enemyHit();
-                }else if (bottle.y > 500) {
-                    this.throwableObjects.splice(bottle, 1)
-                }
-            });
+    this.throwableObjects.forEach((bottle) => {
+        this.level.enemies.forEach((enemy) => {
+            if (bottle.isCollidingComplete(enemy)) {
+                enemy.chickenHit(enemy);
+                bottle.enemyHit(); 
+            }
         });
-    }
+    });
+    this.throwableObjects = this.throwableObjects.filter(bottle => 
+        bottle.y <= 500 
+    );
+}
 
     /**
      * Checks if the character collides with an coin, removes the coin from display 
@@ -181,10 +182,6 @@ class World {
         }
     }
 
-    levelEnd() {
-        console.log(bossEnd);
-        
-    }
 
     /**
     * * Renders all visual game elements onto the canvas.
@@ -245,7 +242,7 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-       // mo.drawFrame2(this.ctx);
+        mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
