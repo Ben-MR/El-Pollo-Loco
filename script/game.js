@@ -15,6 +15,7 @@ paused = false;
 hitAfterJump = true;
 directionLeft = false;
 intervals = [];
+bossEnd = 0;
 
 
 /**

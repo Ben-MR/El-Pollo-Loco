@@ -8,15 +8,22 @@
 }
 
 body {
+
+    
+    font-family: 'Rye';
+    margin: 0;
+}
+
+section {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-image: url('./img/desert.jpg');
     background-position: center;
     background-repeat: no-repeat;
-    
-    font-family: 'Rye';
-    margin: 0;
+    background-size: cover;
+    min-height: 100vh;
+    overflow: hidden;
 }
 
 a {
@@ -26,10 +33,12 @@ a {
 
 .widescreen {
     max-width: 1920px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     position: relative;
     width: 100%;
 }
+
 .overlay {
     position: fixed;
     height: 100vh;
@@ -81,6 +90,16 @@ h1 {
     left:50%;
     transform: translate(-50%, -50%);
     font-size: 25px;
+}
+
+.inprint {
+    position: absolute;
+    bottom: 50px;
+    right:15px;
+    border: 1px solid black;
+    border-radius: 20px; 
+    font-size: 20px;
+    padding: 5px 10px 5px 10px;
 }
 
 .inprint-mobile {
@@ -140,6 +159,10 @@ canvas {
     font-size: 20px;
     margin-top: 20px;
     color: black;
+}
+
+.start-picture-container {
+    position: relative;
 }
 
 .start-picture {
@@ -208,7 +231,11 @@ canvas {
     flex-direction: column;
     align-items: baseline;
     width: 40%;
-    margin: 60px 0 0 30px ;
+    margin: 110px 0 0 30px ;
+}
+
+.headline-impressum {
+    font-size: 40px;
 }
 
 .impressum-back {
@@ -288,6 +315,15 @@ canvas {
         width: 20px;
         height: auto;
     }
+
+    .impressum-container {
+    font-size: 16px;
+    margin: 50px 0 0 30px ;
+    }
+
+    .headline-impressum {
+        font-size: 24px;
+    }
 }
 
 @media only screen and (max-height: 480px) {
@@ -344,11 +380,19 @@ canvas {
         display: none;
     }
 
-
     .impressum-back {
         margin-bottom: 20px;
         width: 20px;
         height: auto;
+    }
+
+    .impressum-container {
+        font-size: 16px;
+        margin: 50px 0 0 30px ;
+    }
+
+    .headline-impressum {
+        font-size: 24px;
     }
 }
 
@@ -428,6 +472,14 @@ canvas {
     .legal-notice {
         display: none; 
     }
+
+    .overlay {
+        display: none; 
+    }
+
+    .game-over-picture {
+        display: none; 
+    }
 }
 
 @media only screen and (orientation:landscape) {
@@ -435,10 +487,7 @@ canvas {
         height: inherit;
     }
 
-    body {
-        height: 100vh;
-        overflow: hidden;
-    }
+
 
     .control-container {
         display: none;
@@ -457,22 +506,15 @@ canvas {
 
 
 @media (min-aspect-ratio: 2/1) {
-    body {
-        background-size: cover;
-    }   
+ 
 
 }
 
-@media (min-height: 1180px) {
-    body {
-        background-position: top;
-    }
-} 
+@media (min-height: 1180px) {}
 
-@media (min-width: 3840px) {
-    body {
-        background-size: cover;
-    }
+
+@media (min-width: 3000px) {
+
     
 }
 

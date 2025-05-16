@@ -1,6 +1,7 @@
 let level1;
+let levelEnd = 6420;
 function initLevel() {    
-
+bossEnd = levelEnd;
 level1 = new Level(
     [
         new Chicken(1500, 369),

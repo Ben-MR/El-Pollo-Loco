@@ -162,6 +162,7 @@ class Endboss extends MoveableObject {
         this.playAnimation(this.images_Walking);
         this.startMove();
         this.playSound();
+        bossEnd = this.x;
     }
 
     /**

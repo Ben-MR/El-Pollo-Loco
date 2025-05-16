@@ -48,6 +48,7 @@ class World {
             this.collectBottles();
             this.gameOverFunction();
             this.gameWonFunction();
+            this.levelEnd();
         }, 60/1000);
         this.allIntervals.push(this.runInterval);
     }
@@ -178,6 +179,11 @@ class World {
             this.gameWon = false;
             document.getElementById('gameWonPicture').classList.remove('d-none');
         }
+    }
+
+    levelEnd() {
+        console.log(bossEnd);
+        
     }
 
     /**

@@ -131,7 +131,7 @@ class Character extends MoveableObject {
      * Checks whether the character is allowed to move to the right.
      */
     canMoveRight() {
-        return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+        return this.world.keyboard.RIGHT && this.x < (bossEnd - 50);
     }
 
     /**

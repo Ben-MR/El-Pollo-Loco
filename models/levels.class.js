@@ -4,7 +4,6 @@ class Level {
     backgroundObjects;
     collectablesCoins;
     collectablesBottles;
-    level_end_x = 6420;
 
     constructor(enemies, cloud, backgroundObjects, collectablesCoins, collectablesBottles) {
         this.enemies = enemies;
@@ -13,5 +12,4 @@ class Level {
         this.collectablesCoins = collectablesCoins;
         this.collectablesBottles = collectablesBottles;
     }
-
 }
