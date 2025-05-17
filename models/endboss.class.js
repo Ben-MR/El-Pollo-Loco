@@ -111,6 +111,7 @@ class Endboss extends MoveableObject {
      * Triggers the boss intro sequence, disables player input, and resets animation counter.
      */
     waitForBossIntro() {
+        this.world.bossBar = true;
         this.bossIntro();
         this.firtContact = true;
         this.i = 0;  
@@ -264,13 +265,15 @@ class Endboss extends MoveableObject {
      */
     stopGameBossDeath() {
         setTimeout(() => {
+            endGameIntervals();   
+        }, 1000);
+        setTimeout(() => {
             clearInterval(this.endbossAnimation);
             this.stopMove();
-            this.world.gameWon = true;   
+            document.getElementById('gameWonPicture').classList.remove('d-none');
             if (sound) {
                 this.audio_victory.play(); 
-            }            
-            endGameIntervals();                
+            }                      
         }, 2000);   
     }
 
@@ -282,6 +285,7 @@ class Endboss extends MoveableObject {
         if (this.isHurt()) return;
         this.hurt = true;
         this.energy--;  
+        this.world.statusBarBoss.energyDown();        
         if (this.energy < 0) {
             this.energy = 0;
         }else {

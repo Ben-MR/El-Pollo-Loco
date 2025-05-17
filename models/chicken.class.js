@@ -5,8 +5,8 @@ class Chicken extends MoveableObject {
     chickenAnimation;
     offset = {
         top: 15,
-        left: 2,
-        right: 2,
+        left: 8,
+        right: 8,
         bottom: 5
     }
     dead = false;

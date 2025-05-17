@@ -10,8 +10,8 @@ class Character extends MoveableObject {
     isIdle = false; 
     offset = {
         top: 110,
-        left: 18,
-        right: 35,
+        left: 25,
+        right: 45,
         bottom: 20
     }
     imagesWalking = [
@@ -39,7 +39,6 @@ class Character extends MoveableObject {
         './img/2_character_pepe/5_dead/D-54.png',
         './img/2_character_pepe/5_dead/D-55.png',
         './img/2_character_pepe/5_dead/D-56.png',
-        './img/2_character_pepe/5_dead/D-57.png',
     ];
     images_hurt = [
         './img/2_character_pepe/4_hurt/H-41.png',
@@ -121,7 +120,7 @@ class Character extends MoveableObject {
         if (this.canMoveLeft()) {
             this.characterMoveLeft();
         };
-        this.world.camera_x = -this.x + 100
+        this.world.camera_x = -this.x + 100;
         if (this.canJump()) {
              this.characterJump();
         }
@@ -131,7 +130,7 @@ class Character extends MoveableObject {
      * Checks whether the character is allowed to move to the right.
      */
     canMoveRight() {
-        return this.world.keyboard.RIGHT && this.x < (bossEnd - 60);
+        return this.world.keyboard.RIGHT && this.x < (bossEnd - 80);
     }
 
     /**
@@ -376,7 +375,7 @@ class Character extends MoveableObject {
      */
     stopGameDeath() {
         setTimeout(() => {
-            this.world.gameOver = true;
+            document.getElementById('gameOverPicture').classList.remove('d-none');
             music.pause();  
             music.currentTime = 0;
             audio_boss_music.pause(); 

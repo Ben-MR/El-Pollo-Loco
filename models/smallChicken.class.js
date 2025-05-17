@@ -5,8 +5,8 @@ class SmallChicken extends MoveableObject {
     smallChickenAnimation;
     offset = {
         top: 5,
-        left: 2,
-        right: 2,
+        left: 8,
+        right: 5,
         bottom: 5
     }
     dead = false;

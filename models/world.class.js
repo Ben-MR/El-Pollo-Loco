@@ -1,6 +1,4 @@
 class World {     
-    gameOver = false;
-    gameWon = false;
     canvas;
     ctx;
     keyboard;
@@ -8,6 +6,7 @@ class World {
     allIntervals = [];
     bottleThrown = false;
     bottleWait = false;
+    bossBar = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -18,6 +17,7 @@ class World {
         this.endboss = new Endboss(this);
         this.level.enemies.push(this.endboss);
         this.statusBar = new StatusBar();
+        this.statusBarBoss = new StatusBarBoss();
         this.statusBarCoin = new StatusBarCoin();
         this.statusBarBottle = new StatusBarBottle();
         this.character = new Character ();
@@ -46,10 +46,8 @@ class World {
             this.checkBottleCollisions();
             this.collectCoins();
             this.collectBottles();
-            this.gameOverFunction();
-            this.gameWonFunction();
         }, 60/1000);
-        this.allIntervals.push(this.runInterval);
+        intervals.push(this.runInterval);
     }
 
     /**
@@ -155,33 +153,7 @@ class World {
                 this.level.collectablesBottles.splice(collectablesBottles, 1);                             
             }
         });
-    }
-
-    /**
-     * pauses the game and shows game over screen
-     * 
-     */
-    gameOverFunction() {
-        if (this.gameOver) {
-            this.paused = !this.paused;
-            this.gameOver = false;
-            document.getElementById('gameOverPicture').classList.remove('d-none');
-        }
-    }
-
-    /**
-     * pauses the game and shows game won screen
-     * 
-     */
-    
-    gameWonFunction() {
-        if (this.gameWon) {
-            this.paused = !this.paused;
-            this.gameWon = false;
-            document.getElementById('gameWonPicture').classList.remove('d-none');
-        }
-    }
-
+    } 
 
     /**
     * * Renders all visual game elements onto the canvas.
@@ -191,33 +163,49 @@ class World {
     * and throwable objects in the correct order. It uses `requestAnimationFrame` to
     * continuously call itself for smooth, asynchronous rendering — only if the game is not paused.
     *
- * The translation logic ensures that HUD elements remain fixed while the world scrolls.
+    * The translation logic ensures that HUD elements remain fixed while the world scrolls.
      */
     draw() {
-        if(!paused) {
-            this.ctx.clearRect(0, 0, canvas.width, canvas.height);            
-            this.ctx.translate(this.camera_x, 0);        
-            this.addObjectsToMap(this.level.backgroundObjects); 
-            this.addObjectsToMap(this.level.cloud);       
-            //space for fixed Objects  
-            this.ctx.translate(-this.camera_x, 0); //back
+        this.ctx.clearRect(0, 0, canvas.width, canvas.height);            
+        this.ctx.translate(this.camera_x, 0);        
+        this.drawBackground(); 
+        this.drawFixedObjects();
+        this.drawGameObjects();         
+        this.ctx.translate(-this.camera_x, 0);          
+        requestAnimationFrame(() => this.draw());
+    }
+
+    /**
+     * Draws Background images into canvas
+     */
+    drawBackground() {
+        this.addObjectsToMap(this.level.backgroundObjects); 
+        this.addObjectsToMap(this.level.cloud); 
+    }
+
+    /**
+     * Draws fixed objects into canvas
+     */
+    drawFixedObjects() {
+        this.ctx.translate(-this.camera_x, 0); 
             this.addToMap(this.statusBar);    
             this.addToMap(this.statusBarCoin);     
-            this.addToMap(this.statusBarBottle);          
-            this.ctx.translate(this.camera_x, 0);  //forward 
+            this.addToMap(this.statusBarBottle);     
+            if (this.bossBar) {
+                this.addToMap(this.statusBarBoss); 
+            };                  
+        this.ctx.translate(this.camera_x, 0);  
+    }
 
-            this.addObjectsToMap(this.throwableObjects);
-            this.addToMap(this.character);
-            this.addObjectsToMap(this.level.collectablesCoins);    
-            this.addObjectsToMap(this.level.collectablesBottles);    
-            this.addObjectsToMap(this.level.enemies);     
-            this.ctx.translate(-this.camera_x, 0);         
-            //Draw wird immer wieder aufgerufen
-            let self = this; //this funktioniert in der unteren Funktion nicht mehr, daher eine neue Variable
-            requestAnimationFrame(function(){ // Funktion wird ausgeführt, sobald alles darüber fertig gezeichnet wurde, also wird asynchron später ausgeführt
-                self.draw();
-            });
-        }
+    /**
+     * Draws game objects into canvas
+     */
+    drawGameObjects() {
+        this.addObjectsToMap(this.throwableObjects);
+        this.addToMap(this.character);
+        this.addObjectsToMap(this.level.collectablesCoins);    
+        this.addObjectsToMap(this.level.collectablesBottles);    
+        this.addObjectsToMap(this.level.enemies); 
     }
 
     /**
@@ -242,7 +230,7 @@ class World {
         }
         mo.draw(this.ctx);
         // mo.drawFrame(this.ctx);
-        mo.drawFrame2(this.ctx);
+        //mo.drawFrame2(this.ctx);
         if(mo.otherDirection) {
             this.flipImageBack(mo);
         }
