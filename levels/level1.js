@@ -18,7 +18,7 @@ level1 = new Level(
         new SmallChicken(3000, 379),  
         new SmallChicken(3200, 379),  
         new SmallChicken(3200, 379),  
-        new SmallChicken(6200, 379),  
+        new SmallChicken(5200, 379),  
         new SmallChicken(6200, 379),  
         new SmallChicken(6200, 379),  
     ],

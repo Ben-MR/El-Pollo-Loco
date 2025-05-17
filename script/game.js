@@ -36,6 +36,22 @@ function init() {
  * 
  */
 function startGame() {
+    setClassLists();
+    getSoundFromStorage();
+    setSound(); 
+    initLevel();        
+    world = new World (canvas, keyboard);  
+    music.currentTime = 0;
+    audio_boss_music.currentTime = 0;
+}
+
+/**
+ * Sets the visibility of various HTML elements by modifying their CSS class lists.
+ * 
+ * - Hides: start screen, game over screen, win screen, mobile start screen, and overlay.
+ * - Shows: game canvas and its container.
+ */
+function setClassLists() {
     document.getElementById('startPicture').classList.add('d-none');
     document.getElementById('gameOverPicture').classList.add('d-none');
     document.getElementById('canvas').classList.remove('d-none');
@@ -43,11 +59,6 @@ function startGame() {
     document.getElementById('gameWonPicture').classList.add('d-none');   
     document.getElementById('startMobilePicture').classList.add('d-none'); 
     document.getElementById('overlay').classList.add('d-none');
-    getSoundFromStorage();
-    setSound(); 
-    initLevel();        
-    world = new World (canvas, keyboard);  
-    world.gameOver = false;       
 }
 
 /**

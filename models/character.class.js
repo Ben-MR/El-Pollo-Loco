@@ -377,9 +377,7 @@ class Character extends MoveableObject {
         setTimeout(() => {
             document.getElementById('gameOverPicture').classList.remove('d-none');
             music.pause();  
-            music.currentTime = 0;
             audio_boss_music.pause(); 
-            audio_boss_music.currentTime = 0;
             audio_chicken_angry.pause(); 
             if (sound) {
                 this.audio_gameOver.play();

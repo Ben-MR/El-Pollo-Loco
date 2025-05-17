@@ -81,27 +81,29 @@ applyGravity(){
      * @param {MovableObject} enemy - The object to check collision against.
      * @returns {boolean} True if the character hits the enemy from above while falling.
      */
-isCollidingJump(enemy) {
-    const characterLeft   = this.x + this.offset.left;
-    const characterRight  = this.x + this.width - this.offset.right;
-    const characterBottom = this.y + this.height - this.offset.bottom;
+    isCollidingJump(enemy) {
+        return this.isHorizontallyOverlappingWith(enemy) &&
+            this.isVerticallyLandingOn(enemy) &&
+            this.speedY < 0;
+    }
 
-    const enemyLeft  = enemy.x + enemy.offset.left;
-    const enemyRight = enemy.x + enemy.width - enemy.offset.right;
-    const enemyTop   = enemy.y + enemy.offset.top;
+    isHorizontallyOverlappingWith(enemy) {
+        const characterLeft = this.x + this.offset.left;
+        const characterRight = this.x + this.width - this.offset.right;
+        const enemyLeft = enemy.x + enemy.offset.left;
+        const enemyRight = enemy.x + enemy.width - enemy.offset.right;
+        return characterRight > enemyLeft && characterLeft < enemyRight;
+    }
 
-    const verticalBuffer = 8;
-
-    const horizontalOverlap =
-        characterRight > enemyLeft &&
-        characterLeft < enemyRight;
-
-    const verticalContact =
-        characterBottom > (enemyTop - verticalBuffer) &&
-        characterBottom < (enemyTop + verticalBuffer);
-
-    return horizontalOverlap && verticalContact && this.speedY < 0;
-}
+    isVerticallyLandingOn(enemy) {
+        const characterBottom = this.y + this.height - this.offset.bottom;
+        const enemyTop = enemy.y + enemy.offset.top;
+        const verticalBuffer = 8;
+        return (
+            characterBottom > (enemyTop - verticalBuffer) &&
+            characterBottom < (enemyTop + verticalBuffer)
+        );
+    }
    
     /**
      * Checks if this object is colliding with another object on any side (full bounding box check).
