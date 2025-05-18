@@ -298,8 +298,8 @@ class Endboss extends MoveableObject {
      * @returns {boolean} True if the boss was hit less than 1 second ago.
      */
     isHurt() {
-        let timePassed = new Date().getTime() - this.lastHit;// Difference im ms
-        timePassed = timePassed / 1000; //Uwandlung in Sekunden        
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000;        
         return timePassed < 1;
     };       
 }

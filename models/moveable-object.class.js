@@ -138,8 +138,8 @@ applyGravity(){
      * @returns number of delay time
      */
     isHurt() {
-        let timePassed = new Date().getTime() - this.lastHit;// Difference im ms
-        timePassed = timePassed / 1000; //Uwandlung in Sekunden      
+        let timePassed = new Date().getTime() - this.lastHit;
+        timePassed = timePassed / 1000;     
         return timePassed < 2;       
     };
 

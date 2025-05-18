@@ -16,7 +16,7 @@ class DrawableObject {
      * @param {string} path - file path to the image.
      */
     loadImage(path) {
-        this.img = new Image(); //Image ist bereits durch JS definiert. Ist das gleiche wie: this.img = document.getElementById('image') <img id="image"  scr>
+        this.img = new Image(); 
         this.img.src = path;
     }
 

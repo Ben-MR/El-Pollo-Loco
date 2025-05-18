@@ -30,10 +30,11 @@ class World {
     }
 
     /**
-     * Associates the current world instance with the character.
+     * Associates the current world instance with the character and lets character 
+     * use keyboard.
      */
     setWorld() {
-        this.character.world = this; // Dadurch kann die Character-Klasse auf Keyboard zugreifen
+        this.character.world = this; 
     }
     
     /**
